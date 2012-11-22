@@ -27,14 +27,36 @@ var selectors = {
     source:   'expresso'    
   },
 
-  'http://desporto.publico.pt/': {
-    title:  '#ctl00_ContentPlaceHolder1_titulo',
-    lead:   '#ctl00_ContentPlaceHolder1_lead',
-    body:   '#ctl00_ContentPlaceHolder1_texto',
-    img:    '#ctl00_ContentPlaceHolder1_img',
-    source: 'publico'  
+  'http://www.abola.pt/': {
+    title:    '#a5g2',
+    lead:     '#not_exists',
+    body:     '#noticiatext',
+    image:    {
+      url:          '#ctl00_ContentPlaceHolder1_ver1_rpNoticia_ctl00_foto',
+      description:  '#not_exists',
+      author:       '#not_exists',
+    },
+
+    author:   '#a5g4 > b',
+    source:   'abola'    
   },
 
+  'http://sicnoticias.sapo.pt/': {
+    title:    '#main div.column-1 h1',
+    lead:     '#main div.column-1 h2',
+    body:     '#main div.column-1 div.body',
+    image:    {
+      url:          '#main div.column-1 div.imageContainer img',
+      description:  '#not_exists',
+      author:       '#not_exists',
+    },
+
+    author:   '#not_exists',
+    //tags:
+    source:   'sicnoticias'     
+  },
+
+/**
   'http://www.ionline.pt/': {
     title:  '#op-content-inner .pane-page-title h1',
     lead:   '#op-content-inner div.page-articledetail-entry div.field-item',
@@ -42,6 +64,7 @@ var selectors = {
     img:    '#quicktabs-media_article .field-content img',
     source: 'ionline' 
   }
+**/
 };
 
 

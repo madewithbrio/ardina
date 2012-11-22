@@ -4,7 +4,7 @@ require('./KeywordsAnaliser.js');
 var ArticleSchema = new Schema({
     title: 			{ type: String, index: true, required: true, trim: true },
     lead: 			{ type: String },
-    body: 			{ type: String, required: true },
+    body: 			{ type: String },
     image: 			{
       url:          { type: String },
       description:  { type: String },
@@ -16,7 +16,7 @@ var ArticleSchema = new Schema({
     source: 		{ type: String, index: true, required: true, trim: true },
     sourceUrl: 	{ type: String, index: true, required: true, unique: true },
     pubDate: 		{ type: Date,  	index: true, required: true },
-
+    tags:       [{type: String}],
 
     slug:       { type: String, index: true, required: true, unique: true, lowercase: true, trim: true },
     analiser:   {

@@ -22,6 +22,11 @@ if (typeof selector === 'undefined')
   throw new Error('no selector');
 }
 
+var tags = [];
+if (process.argv.length > 3) {
+  tags = process.argv.slice(3, process.argv.length);
+}
+
 var db = mongoose.createConnection('mongodb://localhost/test', { server: { auto_reconnect: false, poolSize: 1 }});
 try {
   db.on('error', console.error.bind(console, 'connection error:'));
@@ -29,10 +34,10 @@ try {
     var Article = db.model('Article');
     Article.count({url: url}, function(err, count) {
       if (count != 0) {
-        throw new Error("article allready scraped");
+        throw new Error("article already scraped");
       }
     });
-    scraperNewsArticle(url, selector);
+    scraperNewsArticle(url, selector, tags);
   });
 } catch (err) {
   console.error(err);
@@ -42,7 +47,7 @@ try {
 /**
  *  Scrape article page using dom parser and jquery selectores
  */
-var scraperNewsArticle = function(url, selector) 
+var scraperNewsArticle = function(url, selector, tags) 
 {
   request({ 
     url: url, timeout: 10000 /*, headers: { 'accept-encoding': 'gzip, deflate' } */
@@ -73,13 +78,14 @@ var scraperNewsArticle = function(url, selector)
       // build object to save
       var article = new Article({
         title:      title.text().trim(),
-        lead:       lead.html().trim(),
-        body:       body.html().trim(),
+        lead:       lead.html() || "",
+        body:       body.html() || "",
         image:      {
           url:          $(selector.image.url).attr('src'),
           description:  $(selector.image.description).text(),
           author:       $(selector.image.author).text()
         },
+        tags:       tags,
         author:     $(selector.author).text().trim(),
         source:     selector.source,
         sourceUrl:  url,
