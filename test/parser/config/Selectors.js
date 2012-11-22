@@ -13,6 +13,20 @@ var selectors = {
     source:   'publico'
   },
 
+  'http://expresso.sapo.pt/': {
+    title:    '#detalheArtigoDefault h1',
+    lead:     '#detalheArtigoDefault h2',
+    body:     '#bodyText',
+    image:    {
+      url:          '#detalheArtigoDefault div.entre img',
+      description:  '#detalheArtigoDefault div.entre div.aiCenterDesD',
+      author:       '#detalheArtigoDefault div.entre div.aiCenterCreD',
+    },
+
+    author:   '#detalheArtigoDefault span.atigoFonte',
+    source:   'expresso'    
+  },
+
   'http://desporto.publico.pt/': {
     title:  '#ctl00_ContentPlaceHolder1_titulo',
     lead:   '#ctl00_ContentPlaceHolder1_lead',
