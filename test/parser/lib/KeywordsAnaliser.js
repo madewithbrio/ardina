@@ -3,7 +3,7 @@ KeywordsAnaliser = function(text) {
 		discardWordsWithLessChar: 5,
 		keywordReapetedTimes: 	  3,
 		stopWords: [
-			'entre', 'mesmo', 'depois', 'mas', 'estes', 'apenas', 'segundo', 'ainda'
+			'entre', 'mesmo', 'depois', 'mas', 'estes', 'apenas', 'segundo', 'ainda', 'sobre', 'muito', 'parte'
 		]
 	}
 
@@ -35,7 +35,7 @@ KeywordsAnaliser = function(text) {
 			if (word.length < options.discardWordsWithLessChar) continue;
 			if (options.stopWords.indexOf(word) != -1) continue;
 
-			word = word.replace(/s$/, ''); // singular
+			word = word.replace(/ões$/,'ão').replace(/ães$/,'ão').replace(/eis$/,'el').replace(/([aeio])s$/, '$1'); // singular
 			if (typeof oWords[word] === 'undefined') {
 				object.wordsCount++;
 				oWords[word] = 1;

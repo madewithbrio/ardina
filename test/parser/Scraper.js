@@ -22,7 +22,7 @@ if (typeof selector === 'undefined')
   throw new Error('no selector');
 }
 
-var db = mongoose.createConnection('mongodb://localhost/test', { server: { auto_reconnect: false }});
+var db = mongoose.createConnection('mongodb://localhost/test', { server: { auto_reconnect: false, poolSize: 1 }});
 try {
   db.on('error', console.error.bind(console, 'connection error:'));
   db.once('open', function callback () {
