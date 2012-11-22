@@ -80,7 +80,7 @@ var scraperNewsArticle = function(url, selector)
           description:  $(selector.image.description).text(),
           author:       $(selector.image.author).text()
         },
-        author:     $(selector.author).text(),
+        author:     $(selector.author).text().trim(),
         source:     selector.source,
         sourceUrl:  url,
       });
