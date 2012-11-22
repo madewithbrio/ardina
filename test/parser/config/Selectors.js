@@ -10,6 +10,7 @@ var selectors = {
     },
 
     author:   'article header span[itemprop="author"] span[itemprop="name"]',
+    tags:     '',
     source:   'publico'
   },
 
@@ -24,6 +25,7 @@ var selectors = {
     },
 
     author:   '#detalheArtigoDefault span.atigoFonte',
+    tags:     '',
     source:   'expresso'    
   },
 
@@ -38,6 +40,7 @@ var selectors = {
     },
 
     author:   '#a5g4 > b',
+    tags:     '',
     source:   'abola'    
   },
 
@@ -52,8 +55,128 @@ var selectors = {
     },
 
     author:   '#not_exists',
-    //tags:
+    tags:     '',
     source:   'sicnoticias'     
+  },
+
+  'http://www.jn.pt/': {
+    title:    '#NewsTitle',
+    lead:     '#NewsSummary',
+    body:     '#Article div div',
+    image:    {
+      url:          '#Article div table img',
+      description:  '#Article .MediaCaption',
+      author:       '#Article .MediaProducer',
+    },
+
+    author:   '.Author',
+    tags:     '.header-seccao-laranja2 a:first-child',
+    source:   'jn'
+  },
+
+  'http://www.dn.pt/': {
+    title:    '#NewsTitle',
+    lead:     '#NewsSummary',
+    body:     '#Article div div',
+    image:    {
+      url:          '#Article div table img',
+      description:  '#Article .MediaCaption',
+      author:       '#Article .MediaProducer',
+    },
+
+    author:   '.Author',
+    tags:     '.header-seccao-laranja2 a:first-child',
+    source:   'dn'
+  },
+
+  'http://www.tsf.pt/': {
+    title:    '',
+    lead:     '',
+    body:     '',
+    image:    {
+      url:          '',
+      description:  '',
+      author:       '',
+    },
+
+    author:   '',
+    tags:     '',
+    source:   'tsf'
+  },
+
+  'http://sol.sapo.pt/': {
+    title:    '#NewsTitle',
+    lead:     '#not_exists',
+    body:     '#NewsSummary',
+    image:    {
+      url:          '#NewsMain img',
+      description:  '#not_exists',
+      author:       '#not_exists',
+    },
+
+    author:   '#not_exists',
+    tags:     '#NewsSummary .tags > a',
+    source:   'sol'
+  },
+
+  'http://economico.sapo.pt/': {
+    title:    '.meta > h2',
+    lead:     '.mainText p > strong',
+    body:     '.mainText',
+    image:    {
+      url:          '#not_exists',
+      description:  '#not_exists',
+      author:       '#not_exists',
+    },
+
+    author:   '.meta em[property="dc.creator"]',
+    tags:     '.meta strong',
+    source:   'de'
+  },
+
+  'http://www.cmjornal.xl.pt/': {
+    title:    '.newsPageContainer h4',
+    lead:     '.newsPageContainer .newsPageContainer',
+    body:     '.newsPageContainer',
+    image:    {
+      url:          '.newsPageContainer img',
+      description:  '.imgLabel span',
+      author:       '#not_exists',
+    },
+
+    author:   '#not_exists',
+    tags:     '#not_exists',
+    source:   'cm'
+  },
+
+  'http://www.jornaldenegocios.pt/': {
+    title:    '.general_list_title2',
+    lead:     '.com_shownews_lead',
+    body:     '.com_shownews_text',
+    image:    {
+      url:          '.com_shownews_text img',
+      description:  '#not_exists',
+      author:       '#not_exists',
+    },
+
+    author:   '.destacados_line_link',
+    tags:     '#tags span a',
+    source:   'negocios'
+  },
+
+  'http://www.record.xl.pt/': {
+    title:    '.maincontain .titulo',
+    lead:     '.maincontain .sub',
+    body:     '.maincontain .texto',
+    image:    {
+      url:          '#mod_fv img',
+      description:  '#not_exists',
+      author:       '#not_exists',
+    },
+
+    author:   '.destacados_line_link',
+    tags:     '.socialcontain .tags',
+    source:   'record'
   },
 
 /**

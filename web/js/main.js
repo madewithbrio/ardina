@@ -14,7 +14,10 @@ $(document).ready(function() {
 
 	$('.main_menu li a').bind('click', function(e){
 		e.preventDefault();
-		$(this).toggleClass('selected');
+		$('.main_menu li').each(function() {
+    		$(this).children('a').removeClass('selected');
+		});
+		$(this).addClass('selected');
 	});
 
 	// reset font size
