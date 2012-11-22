@@ -1,9 +1,9 @@
 var selectors = {
   'http://www.publico.pt/': {
-    title:  '#content .noticia-title h2',
-    lead:   '#content .noticia-intro blockquote',
-    body:   '#main-content .noticia',
-    img:    '#content .noticia-img img',
+    title:  'article header h1',
+    lead:   'article header div[itemprop="description"]',
+    body:   'article div[itemprop="articleBody"]',
+    img:    'article figure img[itemprop="image"]',
     source: 'publico'
   },
 
