@@ -1,10 +1,16 @@
 var selectors = {
   'http://www.publico.pt/': {
-    title:  'article header h1',
-    lead:   'article header div[itemprop="description"]',
-    body:   'article div[itemprop="articleBody"]',
-    img:    'article figure img[itemprop="image"]',
-    source: 'publico'
+    title:    'article header h1',
+    lead:     'article header div[itemprop="description"]',
+    body:     'article div[itemprop="articleBody"]',
+    image:    {
+      url:          'article figure img[itemprop="image"]',
+      description:  'article figure figcaption',
+      author:       'article figure figcaption span.credit',
+    },
+
+    author:   'article header span[itemprop="author"] span[itemprop="name"]',
+    source:   'publico'
   },
 
   'http://desporto.publico.pt/': {

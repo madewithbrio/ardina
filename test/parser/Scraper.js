@@ -45,7 +45,7 @@ try {
 var scraperNewsArticle = function(url, selector) 
 {
   request({ 
-    url: url, timeout: 10000, headers: { 'accept-encoding': 'none' } 
+    url: url, timeout: 10000 /*, headers: { 'accept-encoding': 'gzip, deflate' } */
   }, function (error, response, body) {
     if (error && response.statusCode !== 200) {
       console.error('Error when contacting server');
@@ -71,18 +71,19 @@ var scraperNewsArticle = function(url, selector)
       }
 
       // build object to save
-      require('./lib/KeywordsAnaliser.js');
-      var analiser  = new KeywordsAnaliser(lead.text().trim() + body.text().trim()),
-          article   = new Article({
-            title:    title.text().trim(),
-            lead:     lead.html().trim(),
-            body:     body.html().trim(),
-            image:    $(selector.img).attr('src'),
-            analiser: analiser,
-            source:   selector.source,
-            url:      url,
-            pubDate:  new Date()
-          });
+      var article = new Article({
+        title:      title.text().trim(),
+        lead:       lead.html().trim(),
+        body:       body.html().trim(),
+        image:      {
+          url:          $(selector.image.url).attr('src'),
+          description:  $(selector.image.description).text(),
+          author:       $(selector.image.author).text()
+        },
+        author:     $(selector.author).text(),
+        source:     selector.source,
+        sourceUrl:  url,
+      });
 
       // save article in db
       article.save(function (err, obj) {
