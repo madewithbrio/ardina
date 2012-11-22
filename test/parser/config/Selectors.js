@@ -44,6 +44,21 @@ var selectors = {
     source:   'abola'    
   },
 
+  'http://www.record.xl.pt/': {
+    title:    '.maincontain .titulo',
+    lead:     '.maincontain .sub',
+    body:     '.maincontain .texto',
+    image:    {
+      url:          '#mod_fv img',
+      description:  '#not_exists',
+      author:       '#not_exists',
+    },
+
+    author:   '.destacados_line_link',
+    tags:     '.socialcontain .tags',
+    source:   'record'
+  },
+
   'http://sicnoticias.sapo.pt/': {
     title:    '#main div.column-1 h1',
     lead:     '#main div.column-1 h2',
@@ -119,21 +134,6 @@ var selectors = {
     source:   'sol'
   },
 
-  'http://economico.sapo.pt/': {
-    title:    '.meta > h2',
-    lead:     '.mainText p > strong',
-    body:     '.mainText',
-    image:    {
-      url:          '#not_exists',
-      description:  '#not_exists',
-      author:       '#not_exists',
-    },
-
-    author:   '.meta em[property="dc.creator"]',
-    tags:     '.meta strong',
-    source:   'de'
-  },
-
   'http://www.cmjornal.xl.pt/': {
     title:    '.newsPageContainer h4',
     lead:     '.newsPageContainer .newsPageContainer',
@@ -164,10 +164,25 @@ var selectors = {
     source:   'negocios'
   },
 
-  'http://www.record.xl.pt/': {
-    title:    '.maincontain .titulo',
-    lead:     '.maincontain .sub',
-    body:     '.maincontain .texto',
+  'http://economico.sapo.pt/': {
+    title:    '.meta > h2',
+    lead:     '.mainText p > strong',
+    body:     '.mainText',
+    image:    {
+      url:          '#not_exists',
+      description:  '#not_exists',
+      author:       '#not_exists',
+    },
+
+    author:   '.meta em[property="dc.creator"]',
+    tags:     '.meta strong',
+    source:   'de'
+  },
+
+  'http://www.agenciafinanceira.iol.pt/': {
+    title:    '.veryfirst-frame h1',
+    lead:     '.veryfirst-frame h2',
+    body:     '.first-frame .texto',
     image:    {
       url:          '#mod_fv img',
       description:  '#not_exists',
@@ -175,9 +190,10 @@ var selectors = {
     },
 
     author:   '.destacados_line_link',
-    tags:     '.socialcontain .tags',
-    source:   'record'
+    tags:     '.names a',
+    source:   'agenciafinanceira'
   },
+
 
 /**
   'http://www.ionline.pt/': {
