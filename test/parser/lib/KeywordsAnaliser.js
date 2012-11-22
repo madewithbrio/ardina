@@ -56,7 +56,7 @@ KeywordsAnaliser = function(text) {
 		keywords.sort(function(a, b) { return b.repeted - a.repeted });
 		object.keywords = keywords.slice(0,10);
 
-/**
+	/**
 		var expressions = text.match(/[\w\u00E0-\u00FC]{4,}[\s]+[\w\u00E0-\u00FC]{1,3}[\s]+[\w\u00E0-\u00FC]{4,}/g);
 		for (i = 0; i < expressions.length; i++) {
 			if (__haveStopWord(expressions[i])) continue; 
@@ -66,7 +66,7 @@ KeywordsAnaliser = function(text) {
 				}
 			}
 		}
-**/
+	**/
 	}
 
 	init();
