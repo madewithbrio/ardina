@@ -34,7 +34,7 @@ function slugGenerator (options){
 
   return function slugGenerator(schema){
     schema.path(key).set(function(v){
-      this.slug = v.toLowerCase().replace(/[^a-z0-9]/g, '').replace(/-+/g, '');
+      this.slug = v.toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/-+/g, '').replace(/\s+/g, '_');
       return v;
     });
   };

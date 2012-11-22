@@ -56,7 +56,6 @@ var scraperNewsArticle = function(url, selector)
       html: body, 
       scripts: ["http://code.jquery.com/jquery.js"] /* todo use local jquery */
     }, function (err, window) {
-      console.log(selector.lead);
       // start main objects
       var $         = window.jQuery, 
           Article   = db.model('Article');
@@ -91,10 +90,8 @@ var scraperNewsArticle = function(url, selector)
         {
           throw new Error(err);
         }
+        db.close();
       });
-
-      console.log(article);
-      db.close();
     });
   });
 }
