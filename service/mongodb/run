@@ -1,0 +1,10 @@
+#!/bin/sh
+
+exec 2>&1
+
+export PATH=/usr/local/bin:/usr/bin:/bin:/usr/bin/X11:/usr/games:/usr/sbin:/sbin
+
+echo "3 2 1 ..."
+sleep 3
+
+exec setuidgid nobody mongod -vvvvv --bind_ip 127.0.0.1 --nohttpinterface  

@@ -3,15 +3,17 @@ var config 			= require('./config/config.js').config,
 	http			= require('http'),
     winston			= require('winston'),
     journey			= require('journey'),
-    request 		= require('request');
+    request 		= require('request'),
+    view 			= require('./lib/View.js');
     require('./lib/ArticleSchema.js');
 
-var ServerRest = function()
+console.log(view);
+var WEB = function()
 {
 	this.init();
 };
 
-ServerRest.prototype = {
+WEB.prototype = {
 	/**
 	* initialization
 	*/
@@ -41,7 +43,7 @@ ServerRest.prototype = {
 			});
 		});
 
-		}).listen(config.api.port);
+		}).listen(config.web.port);
 
 		return server;
 	},
@@ -56,31 +58,20 @@ ServerRest.prototype = {
 			api        : 'basic'
 	    }), self = this;
 
-	    // article collection
-	    router.path(/\/Rest/, function(){
-	    	this.get(/findBySlug(.*)$/).bind(function(res,slug) {
-	    		db.model('Article').findBySlug(slug, function(err, content){
-	    			if (err) {
-	    				return res.send(500, {}, { status : false, error : 'Could not fetch article' });
-	    			} else {
-	    				res.send(200, {}, { status : true , result : content});
-	    			}
-	    		});
-	    	});
-
-	    	this.get(/findById\/(.*)$/).bind(function(res,id) {
-	    		db.model('Article').findById(id, function(err, content){
-	    			if (err) {
-	    				return res.send(500, {}, { status : false, error : 'Could not fetch article' });
-	    			} else {
-	    				res.send(200, {}, { status : true , result : content});
-	    			}
-	    		});
-	    	});
-	    });
+	    router.get(/^\/artigo\/(.+)$/).bind(function (request, slug, params) {
+		    db.model('Article').findBySlug('/'+slug, function(err, data){
+		    	if (err) {
+    				return request.send(500, {}, { status : false, error : 'Could not fetch article' });
+    			} else {
+    				view.renderView('article_detail', data[0], function(content) {
+    					request.send(200, {'Content-Type': 'text/html'}, content);
+    				});
+    			}
+		    });
+		});
 
 	    return router;
 	}
 };
 
-new ServerRest();
+new WEB();
