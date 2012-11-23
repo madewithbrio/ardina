@@ -57,8 +57,8 @@ ServerRest.prototype = {
 	    }), self = this;
 
 	    // article collection
-	    router.path(/\/article/, function(){
-	    	this.get(/slug\/(.*)$/).bind(function(res,slug) {
+	    router.path(/\/Rest/, function(){
+	    	this.get(/findBySlug(.*)$/).bind(function(res,slug) {
 	    		db.model('Article').findBySlug(slug, function(err, content){
 	    			if (err) {
 	    				return res.send(500, {}, { status : false, error : 'Could not fetch article' });
@@ -68,7 +68,7 @@ ServerRest.prototype = {
 	    		});
 	    	});
 
-	    	this.get(/id\/(.*)$/).bind(function(res,id) {
+	    	this.get(/findById\/(.*)$/).bind(function(res,id) {
 	    		db.model('Article').findById(id, function(err, content){
 	    			if (err) {
 	    				return res.send(500, {}, { status : false, error : 'Could not fetch article' });

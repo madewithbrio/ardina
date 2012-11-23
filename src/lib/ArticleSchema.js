@@ -36,6 +36,10 @@ ArticleSchema.statics.findByUrl = function (url, callback) {
   return this.find({ url: url }, callback);
 }
 
+ArticleSchema.statics.findBySlug = function (slug, callback) {
+  return this.find({ slug: slug }, callback);
+}
+
 function slugGenerator (options){
   options = options || {};
   var key = options.key || 'title';
