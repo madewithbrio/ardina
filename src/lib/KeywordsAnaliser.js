@@ -3,7 +3,7 @@ KeywordsAnaliser = function(text) {
 		discardWordsWithLessChar: 5,
 		keywordReapetedTimes: 	  3,
 		stopWords: [
-			'entre', 'mesmo', 'depois', 'mas', 'estes', 'apenas', 'segundo', 'ainda', 'sobre', 'muito', 'parte'
+			'entre', 'mesmo', 'depois', 'mas', 'estes', 'apenas', 'segundo', 'ainda', 'sobre', 'muito', 'parte', 'ontem'
 		]
 	}
 

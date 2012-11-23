@@ -44,14 +44,25 @@ function slugGenerator (options){
   options = options || {};
   var key = options.key || 'title';
 
+  function strReplace(str) {
+    var l;
+    // remove accents, swap ñ for n, etc
+    var from = "àáäâèéëêìíïîòóöôùúüûñç";
+    var to = "aaaaeeeeiiiioooouuuunc";
+    for (var i = 0, l = from.length; i < l; i++) {
+      str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
+    }
+    return str;
+  }
+
   return function slugGenerator(schema){
     schema.path(key).set(function(v){
       var now             = new Date(),
           year            = now.getUTCFullYear(),
           month           = now.getUTCMonth()+1,
           day             = now.getUTCDate(),
-          normalizeTitle  = v.toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/-+/g, '').replace(/\s+/g, '_');
-      this.slug = "/" + year + "/" + month + "/" + day + "/" + normalizeTitle;
+          normalizeTitle  = strReplace(v.toLowerCase()).replace(/[^a-z0-9\s]/g, '').replace(/-+/g, '').replace(/\s+/g, '_');
+      this.slug = '/' + year + '/' + month + '/' + day + '/' + normalizeTitle + '.html';
       return v;
     });
   };

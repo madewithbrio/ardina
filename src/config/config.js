@@ -15,6 +15,12 @@ exports.config = {
     port : 3001
   },
 
+  web : {
+    port      : 3002,
+    templates : '../templates',
+    cache     : '/var/tmp/ardina/cache'
+  },
+
   feed : {
     refresh : 60000,
     source  : {

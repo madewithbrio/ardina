@@ -3,7 +3,7 @@ var config    	= require('../config/config.js').config,
     Gearman   	= require('node-gearman'),
     gearClient 	= new Gearman(config.gearman.host, config.gearman.port),
     winston   	= require('winston'),
-    feed_url 	= config.feed.source.economico,
+    feed_url 	= config.feed.source.sol,
     last_link 	= undefined;
 
 setInterval(function(){
