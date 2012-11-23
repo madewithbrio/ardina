@@ -32,12 +32,8 @@ ArticleSchema.path('pubDate').default(function(){
    return v == 'now' ? new Date() : v;
 });
 
-ArticleSchema.statics.findBySourceUrl = function (url, callback) {
-  return this.find({ sourceUrl: url }, callback);
-}
-
-ArticleSchema.statics.findBySlug = function (slug, callback) {
-  return this.find({ slug: slug}, callback);
+ArticleSchema.statics.findByUrl = function (url, callback) {
+  return this.find({ url: url }, callback);
 }
 
 function slugGenerator (options){

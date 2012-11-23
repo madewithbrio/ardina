@@ -32,7 +32,7 @@ try {
   db.on('error', console.error.bind(console, 'connection error:'));
   db.once('open', function callback () {
     var Article = db.model('Article');
-    Article.count({url: url}, function(err, count) {
+    Article.count({sourceUrl: url}, function(err, count) {
       if (count != 0) {
         throw new Error("article already scraped");
       }

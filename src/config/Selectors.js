@@ -208,10 +208,11 @@ var selectors = {
 
 
 exports.getSelector = function(url) {
+  if (typeof url === 'undefined') return;
   for (var host in selectors) {
     if (url.indexOf(host) == 0) {
       return selectors[host];
     }
   }
-  return undefined;
+  return;
 }
