@@ -131,7 +131,9 @@ var selectors = {
 
     author:   '#not_exists',
     tags:     '#NewsSummary .tags > a',
-    source:   'sol'
+
+    source:   'sol',
+    cUTF8:    true
   },
 
   'http://www.cmjornal.xl.pt/': {
@@ -211,7 +213,9 @@ exports.getSelector = function(url) {
   if (typeof url === 'undefined') return;
   for (var host in selectors) {
     if (url.indexOf(host) == 0) {
-      return selectors[host];
+      var selector = selectors[host];
+      selector.host = host
+      return selector;
     }
   }
   return;

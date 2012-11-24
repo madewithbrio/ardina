@@ -1,0 +1,31 @@
+<ul class="list news_list highlights_list clearfix">
+    {{#highlights}}
+    <li>
+        <a href="/artigo{{slug}}">
+            <div class="thumb">
+                {{#image.url}}<img src="{{image.url}}" />{{/image.url}}
+                <p class="source {{source}}">{{source}}</p>
+            </div>
+            <div class="details">
+                <p class="date">{{pubDate}}</p>
+                <p class="title">{{title}}</p>
+                {{#lead}}<p class="lead">{{lead}}</p>{{/lead}}
+            </div>
+        </a>
+    </li>
+    {{/highlights}}
+</ul>
+<ul class="list news_list clearfix">
+    {{#latested}}
+    <li>
+        <a href="/artigo{{slug}}">
+            <div class="details">
+                <p class="source {{source}}">{{source}}</p>
+                <p class="date">{{pubDate}}</p>
+                <p class="title">{{title}}</p>
+                {{#lead}}<p class="lead">{{lead}}</p>{{/lead}}
+            </div>
+        </a>
+    </li>
+    {{/latested}}
+</ul>

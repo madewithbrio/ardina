@@ -7,7 +7,7 @@ exports.config = {
   },
   /* MONGODB */
   mongodb : {
-    dsn     : 'mongodb://localhost/test',
+    dsn     : 'mongodb://localhost/ardina',
     options : { server: { auto_reconnect: true, poolSize: 5 }}
   },
   /* API */

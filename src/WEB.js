@@ -4,7 +4,8 @@ var config 			= require('./config/config.js').config,
     winston			= require('winston'),
     journey			= require('journey'),
     request 		= require('request'),
-    view 			= require('./lib/View.js');
+    view 			= require('./lib/View.js'),
+    async 			= require('async');
     require('./lib/ArticleSchema.js');
 
 console.log(view);
@@ -68,6 +69,32 @@ WEB.prototype = {
     				});
     			}
 		    });
+		});
+
+		router.get(/^\/$/).bind(function (request) {
+			try {
+				var Article = db.model('Article'), data = {};
+
+				async.parallel({
+				   highlights : function(cb){
+				      Article.findHighligts(cb);
+				   },
+				   latested : function(cb){
+				      Article.findHighligts(cb);
+				   }
+				}, function(err,data){
+				   if (err) {
+	    				return request.send(500, {}, { status : false, error : 'Could not fetch article' });
+	    			} else {
+	    				view.renderView('homepage', data, function(content) {
+	    					request.send(200, {'Content-Type': 'text/html'}, content);
+	    				});
+	    			}
+				});
+			} catch (e) {
+				return request.send(500, {}, { status : false, error : 'sorry we can`t help you now' });
+			}
+
 		});
 
 	    return router;

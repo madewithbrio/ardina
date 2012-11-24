@@ -40,6 +40,14 @@ ArticleSchema.statics.findBySlug = function (slug, callback) {
   return this.find({ slug: slug }, callback);
 }
 
+ArticleSchema.statics.findHighligts = function(callback) {
+  return this.find({'image.url' : { $exists : true }}).sort({ pubDate : -1 }).skip(10).limit(6).exec(callback);
+}
+
+ArticleSchema.statics.findLatested = function(callback) {
+  return this.find({}).sort({ pubDate : -1 }).skip(10).limit(7).exec(callback);
+}
+
 function slugGenerator (options){
   options = options || {};
   var key = options.key || 'title';

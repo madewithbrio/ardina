@@ -1,11 +1,13 @@
 var request   = require('request'),
     zlib      = require('zlib'),
     fs        = require('fs'),
-    jsdom     = require("jsdom")
-    mongoose  = require('mongoose');
+    jsdom     = require("jsdom"),
+    mongoose  = require('mongoose'),
+    Iconv     = require('iconv').Iconv,
+    Buffer    = require('buffer').Buffer,
     selectors = require('./config/Selectors.js');
     require('./lib/ArticleSchema.js');
-
+var StringHelper = require('../../src/lib/StringHelper.js');
 //var url = "http://desporto.publico.pt/noticia.aspx?id=1573292";
 
 var url = process.argv[2];
@@ -92,6 +94,7 @@ var scraperNewsArticle = function(url, selector, tags)
       });
 
       // save article in db
+      /**
       article.save(function (err, obj) {
         if (err) // TODO handle the error
         {
@@ -99,6 +102,7 @@ var scraperNewsArticle = function(url, selector, tags)
         }
         db.close();
       });
+      **/
     });
   });
 }

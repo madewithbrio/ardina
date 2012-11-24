@@ -10,10 +10,12 @@ var config    = require('./config/config.js').config,
 
     winston   = require('winston'),
     jsdom     = require("jsdom"),
-    selectors = require('./config/Selectors.js');
+    selectors = require('./config/Selectors.js'),
+    StringHelper = require('./lib/StringHelper.js');
     require('./lib/ArticleSchema.js');
 
 try {
+  winston.info('start worker process');
   gearClient.connect();
   db.on('error', function(err){ winston.error(err); });
   db.once('open', function () { winston.log("connect to db"); });
@@ -68,14 +70,13 @@ gearClient.registerWorker('scraper', function(payload, worker) {
 });
 
 
-
 /**
  *  Scrape article page using dom parser and jquery selectores
  */
 var scraperNewsArticle = function(url, selector, tags, callback) 
 {
   request({ 
-    url: url, timeout: 10000 /*, headers: { 'accept-encoding': 'gzip, deflate' } */
+    url: url, timeout: 10000 , headers: { 'accept-charset': 'utf8' } 
   }, function (error, response, body) {
     if (error && response.statusCode !== 200) {
       return callback(true, 'Error when contacting server');
@@ -90,27 +91,44 @@ var scraperNewsArticle = function(url, selector, tags, callback)
           Article   = db.model('Article');
 
       // find element in dom using jquery
-      var title     = $(selector.title),
-          lead      = $(selector.lead),
-          body      = $(selector.body);
+      var $titleEl  = $(selector.title),
+          $leadEl   = $(selector.lead),
+          $bodyEl   = $(selector.body),
+          $authorEl = $(selector.author),
+          $imgEl    = $(selector.image.url),
+          $imgCapEl = $(selector.image.description),
+          $imgAutEl = $(selector.image.author),
 
+          
+          title     = ($titleEl.length)   ? $titleEl.text().trim() : null,
+          body      = ($bodyEl.length)    ? $bodyEl.html()         : null,
+          lead      = ($leadEl.length)    ? $leadEl.html()         : null,
+          img       = ($imgEl.length)     ? $imgEl.get(0).src      : null,
+          imgCap    = ($imgCapEl.length)  ? $imgCapEl.text()       : null,
+          imgAut    = ($imgAutEl.length)  ? $imgAutEl.text()       : null,
+          author    = ($authorEl.length)  ? $authorEl.text()       : null;
       // test if we have found elements
-      if (title.length == 0 && lead.length == 0 && body.length == 0) {
+      if ($titleEl.length == 0 && $leadEl.length == 0 && $bodyEl.length == 0) {
         return callback(true, 'Fail scrap page selectores dont found any data');
       }
+      if (img != null && !img.match(/^http:\/\//)) 
+      { 
+        img = selector.host + img.replace(/^\//, '');
+      }
+      winston.info('img: '+img);
 
       // build object to save
       var article = new Article({
-        title:      title.text().trim(),
-        lead:       lead.html() || "",
-        body:       body.html() || "",
+        title:      title,
+        lead:       lead,
+        body:       body,
         image:      {
-          url:          $(selector.image.url).attr('src'),
-          description:  $(selector.image.description).text(),
-          author:       $(selector.image.author).text()
+          url:          img,
+          description:  imgCap,
+          author:       imgAut
         },
         tags:       tags,
-        author:     $(selector.author).text().trim(),
+        author:     author,
         source:     selector.source,
         sourceUrl:  url,
       });
