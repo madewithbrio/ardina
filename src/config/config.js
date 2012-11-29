@@ -5,11 +5,13 @@ exports.config = {
     port    : 4730,
     maxPush : 3
   },
+
   /* MONGODB */
   mongodb : {
     dsn     : 'mongodb://localhost/ardina',
     options : { server: { auto_reconnect: true, poolSize: 5 }}
   },
+
   /* API */
   api : {
     port : 3001
