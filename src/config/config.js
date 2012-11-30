@@ -40,7 +40,7 @@ var config = {
 }
 
 if (process.env.ENVIRONMENT == 'STG') {
-  config.mongodb.dsn = 'mongodb://192.168.1.74/ardina';
+  config.mongodb.dsn = 'mongodb://192.168.2.2/ardina';
 }
 
 // from command arguments
