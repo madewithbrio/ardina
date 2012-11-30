@@ -53,7 +53,7 @@ ArticleSchema.statics.findHighligts = function(callback) {
 }
 
 ArticleSchema.statics.findLatested = function(callback) {
-  return this.find({}).sort({ pubDate : -1 }).skip(10).limit(7).exec(callback);
+  return this.find({}).sort({ pubDate : -1 }).skip(10).limit(12).exec(callback);
 }
 
 function slugGenerator (options){
