@@ -41,7 +41,11 @@ ArticleSchema.virtual('formatDate').get(function () {
 });
 
 ArticleSchema.virtual('lead_text').get(function () {
-  return StringHelper.stripTags(this.lead);
+  var lead = typeof this.lead == 'string' ? StringHelper.trim(StringHelper.stripTags(this.lead)) : false;
+  if (!lead) {
+    lead = StringHelper.trim( StringHelper.stripTags(this.body) );
+  }
+  return StringHelper.shortString(lead, 250);
 });
 
 ArticleSchema.statics.findByUrl = function (url, callback) {
