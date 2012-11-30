@@ -202,6 +202,7 @@ var selectors = {
     title:    '.meta > h2',
     lead:     '.mainText p > strong',
     body:     '.mainText',
+    exclude_body: 'p:first-child > strong',
     image:    {
       url:          '#not_exists',
       description:  '#not_exists',
