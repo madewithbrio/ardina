@@ -2,8 +2,7 @@
     {{#highlights}}
     <li>
         <a href="/artigo{{slug}}">
-            <div class="thumb">
-                {{#image.url}}<img src="{{image.url}}" />{{/image.url}}
+            <div class="thumb" {{#image.url}}style="background-image:url({{image.url}})"{{/image.url}}>
                 <p class="source {{source}}">{{source}}</p>
             </div>
             <div class="details">

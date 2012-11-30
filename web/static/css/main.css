@@ -172,11 +172,11 @@ body > .main {margin:50px 0 0 0;background:#FFF;}
 .list li a .source.sapo {background:#50B535;}
 .list li a .source.publico {background:#D92727;}
 .list li a .source.sol {background:#D92727;}
-.list li a .source.economico {background:#D9A027;}
+.list li a .source.de {background:#D9A027;}
 .list li a .source.rtp {background:#277AD9;}
 .list li a .source.expresso {background:#476D76;}
 .list li a .source.abola {background:red;}
-.list li a .thumb {position:relative;min-height:100px;background:rgba(0,0,0,0.1);margin:0 0 3px 0;}
+.list li a .thumb {position:relative;min-height:180px;background:rgba(0,0,0,0.1) url() no-repeat center center;background-size:cover;margin:0 0 3px 0;}
 .list li a .thumb img {width:100%;}
 .list li a .details {}
 .list li a .details .date {margin:5px 0 -4px 0;font-size:12px;font-weight:900;text-transform:uppercase;color:#999;}
@@ -187,7 +187,7 @@ body > .main {margin:50px 0 0 0;background:#FFF;}
 .no-touch .list li a:hover .source {background:#333;}
 .list li a .details .lead {color:#666;}
 
-.highlights_list li a .thumb .source {position:absolute;bottom:10px;left:0;}
+.news_list.highlights_list li a .thumb .source {position:absolute;bottom:10px;left:0;}
 
 .article_detail {max-width:600px;padding:10px 10px 10px 50px;margin:0 auto;}
 .article_detail > header,
