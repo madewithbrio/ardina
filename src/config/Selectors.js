@@ -123,6 +123,7 @@ var selectors = {
     title:    '#NewsTitle',
     lead:     '#not_exists',
     body:     '#NewsSummary',
+    exclude_body: 'div.tags',
     image:    {
       url:          '#NewsMain img',
       description:  '#not_exists',

@@ -128,7 +128,12 @@ var scraperNewsArticle = function(url, selector, tags, callback)
         { 
           img = selector.host + img.replace(/^\//, '');
         }
-        winston.info('img: '+img);
+        
+        if (typeof selector.exclude_body == 'string') {
+          console.log("exclude body "+ selector.exclude_body);
+          $bodyEl.find(selector.exclude_body).remove();
+          body = $bodyEl.html();
+        }
 
         // build object to save
         var article = new Article({
