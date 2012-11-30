@@ -1,6 +1,21 @@
 var selectors = {
   'http://noticias.sapo.pt/': {
     title:    '.story h1.entry-title',
+    lead:     '#mainLeadNoCaixaMultimedia, #mainLead',
+    body:     '#textNews',
+    image:    {
+      url:          '#player .imgNews img',
+      description:  '#not_exists',
+      author:       '#not_exists',
+    },
+
+    author:   '#not_exists',
+    tags:     '#not_exists',
+    source:   'rr'
+  },
+
+  'http://rr.sapo.pt/': {
+    title:    '#mainNewsTitle h1',
     lead:     '.story p.lead',
     body:     '.story div.entry-content',
     image:    {
