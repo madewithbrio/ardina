@@ -35,8 +35,8 @@ var selectors = {
     body:     '#bodyText',
     image:    {
       url:          '#detalheArtigoDefault div.entre img',
-      description:  '#detalheArtigoDefault div.entre div.aiCenterDesD',
-      author:       '#detalheArtigoDefault div.entre div.aiCenterCreD',
+      description:  '#detalheArtigoDefault div.entre div.aiCenterCreD',
+      author:       '#detalheArtigoDefault div.entre div.aiCenterDesD',
     },
 
     author:   '#detalheArtigoDefault span.atigoFonte',
