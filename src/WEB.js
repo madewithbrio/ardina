@@ -8,7 +8,6 @@ var config 			= require('./config/config.js').config,
     async 			= require('async');
     require('./lib/ArticleSchema.js');
 
-console.log(view);
 var WEB = function()
 {
 	this.init();
@@ -20,6 +19,7 @@ WEB.prototype = {
 	*/
 	init : function ()
 	{
+		winston.info("start service ...");
 		this.createServer();
 	},
 	/**
@@ -44,8 +44,8 @@ WEB.prototype = {
 			});
 		});
 
-		}).listen(config.web.port);
-
+		}).listen(config.web.port, config.web.ip);
+		winston.info("service listen on " + config.web.ip + ":" + config.web.port);
 		return server;
 	},
 	/**
@@ -80,7 +80,7 @@ WEB.prototype = {
 				      Article.findHighligts(cb);
 				   },
 				   latested : function(cb){
-				      Article.findHighligts(cb);
+				      Article.findLatested(cb);
 				   }
 				}, function(err,data){
 				   if (err) {

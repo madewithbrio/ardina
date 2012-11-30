@@ -41,7 +41,7 @@ ArticleSchema.statics.findBySlug = function (slug, callback) {
 }
 
 ArticleSchema.statics.findHighligts = function(callback) {
-  return this.find({'image.url' : { $exists : true }}).sort({ pubDate : -1 }).skip(10).limit(6).exec(callback);
+  return this.find({'image.url' : { $ne : null }}).sort({ pubDate : -1 }).limit(6).exec(callback);
 }
 
 ArticleSchema.statics.findLatested = function(callback) {

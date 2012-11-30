@@ -1,6 +1,6 @@
 var config    = require('./config/config.js').config,
     db        = require('mongoose').createConnection(config.mongodb.dsn, config.mongodb.options),
-    request   = require('request'),
+    http      = require('follow-redirects').http,
 
 //    zlib      = require('zlib'),
 //    fs        = require('fs'),
@@ -75,69 +75,90 @@ gearClient.registerWorker('scraper', function(payload, worker) {
  */
 var scraperNewsArticle = function(url, selector, tags, callback) 
 {
-  request({ 
-    url: url, timeout: 10000 , headers: { 'accept-charset': 'utf8' } 
-  }, function (error, response, body) {
-    if (error && response.statusCode !== 200) {
-      return callback(true, 'Error when contacting server');
+  var req = http.request(url, function(res) {
+    var page = '';
+
+    if (typeof selector.enconding == 'string') {
+      winston.info("set enconding: " + selector.enconding);
+      res.setEncoding(selector.enconding);
     }
 
-    jsdom.env({
-      html: body, 
-      scripts: ["http://code.jquery.com/jquery.js"] /* todo use local jquery */
-    }, function (err, window) {
-      // start main objects
-      var $         = window.jQuery, 
-          Article   = db.model('Article');
+    // buffer response
+    res.on('data', function (chunk) {
+      page += chunk;
+    });
+  
+    res.on('end', function () {
+      jsdom.env({
+        html: page, 
+        scripts: ["http://code.jquery.com/jquery.js"] /* todo use local jquery */
+      }, function (err, window) {
+        var _callback = function(err, msg) {
+          winston.info("free memory");
+          window.close();
+          callback(err, msg);
+        };
 
-      // find element in dom using jquery
-      var $titleEl  = $(selector.title),
-          $leadEl   = $(selector.lead),
-          $bodyEl   = $(selector.body),
-          $authorEl = $(selector.author),
-          $imgEl    = $(selector.image.url),
-          $imgCapEl = $(selector.image.description),
-          $imgAutEl = $(selector.image.author),
+        // start main objects
+        var $         = window.jQuery, 
+            Article   = db.model('Article');
 
-          
-          title     = ($titleEl.length)   ? $titleEl.text().trim() : null,
-          body      = ($bodyEl.length)    ? $bodyEl.html()         : null,
-          lead      = ($leadEl.length)    ? $leadEl.html()         : null,
-          img       = ($imgEl.length)     ? $imgEl.get(0).src      : null,
-          imgCap    = ($imgCapEl.length)  ? $imgCapEl.text()       : null,
-          imgAut    = ($imgAutEl.length)  ? $imgAutEl.text()       : null,
-          author    = ($authorEl.length)  ? $authorEl.text()       : null;
-      // test if we have found elements
-      if ($titleEl.length == 0 && $leadEl.length == 0 && $bodyEl.length == 0) {
-        return callback(true, 'Fail scrap page selectores dont found any data');
-      }
-      if (img != null && !img.match(/^http:\/\//)) 
-      { 
-        img = selector.host + img.replace(/^\//, '');
-      }
-      winston.info('img: '+img);
+        // find element in dom using jquery
+        var $titleEl  = $(selector.title),
+            $leadEl   = $(selector.lead),
+            $bodyEl   = $(selector.body),
+            $authorEl = $(selector.author),
+            $imgEl    = $(selector.image.url),
+            $imgCapEl = $(selector.image.description),
+            $imgAutEl = $(selector.image.author),
 
-      // build object to save
-      var article = new Article({
-        title:      title,
-        lead:       lead,
-        body:       body,
-        image:      {
-          url:          img,
-          description:  imgCap,
-          author:       imgAut
-        },
-        tags:       tags,
-        author:     author,
-        source:     selector.source,
-        sourceUrl:  url,
-      });
+            
+            title     = ($titleEl.length)   ? $titleEl.text().trim() : null,
+            body      = ($bodyEl.length)    ? $bodyEl.html()         : null,
+            lead      = ($leadEl.length)    ? $leadEl.html()         : null,
+            img       = ($imgEl.length)     ? $imgEl.get(0).src      : null,
+            imgCap    = ($imgCapEl.length)  ? $imgCapEl.text()       : null,
+            imgAut    = ($imgAutEl.length)  ? $imgAutEl.text()       : null,
+            author    = ($authorEl.length)  ? $authorEl.text()       : null;
+        // test if we have found elements
+        if ($titleEl.length == 0 && $leadEl.length == 0 && $bodyEl.length == 0) {
+          return _callback(true, 'Fail scrap page selectores dont found any data');
+        }
+        if (img != null && !img.match(/^http:\/\//)) 
+        { 
+          img = selector.host + img.replace(/^\//, '');
+        }
+        winston.info('img: '+img);
 
-      // save article in db
-      article.save(function (err, obj) {
-        if (err) return callback(true, 'Fail save page: '+err);
-        callback(false, 'page scraped');
+        // build object to save
+        var article = new Article({
+          title:      title,
+          lead:       lead,
+          body:       body,
+          image:      {
+            url:          img,
+            description:  imgCap,
+            author:       imgAut
+          },
+          tags:       tags,
+          author:     author,
+          source:     selector.source,
+          sourceUrl:  url,
+        });
+
+        // save article in db
+        article.save(function (err, obj) {
+          if (err) return _callback(true, 'Fail save page: '+err);
+          _callback(false, 'page scraped');
+        });
       });
     });
   });
+
+  req.on('error', function(e) {
+    console.log('problem with request: ' + e.message);
+    callback(true, e.message);
+  });
+
+  req.end(); // execute request
 }

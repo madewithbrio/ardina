@@ -12,11 +12,13 @@ exports.config = {
   },
   /* API */
   api : {
-    port : 3001
+    port : 3001,
+    ip        : '127.0.0.1',
   },
 
   web : {
     port      : 3002,
+    ip        : '127.0.0.1',
     templates : '../templates',
     cache     : '/var/tmp/ardina/cache'
   },

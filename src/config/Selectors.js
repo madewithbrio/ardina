@@ -133,7 +133,7 @@ var selectors = {
     tags:     '#NewsSummary .tags > a',
 
     source:   'sol',
-    cUTF8:    true
+    enconding:'binary'
   },
 
   'http://www.cmjornal.xl.pt/': {

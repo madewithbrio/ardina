@@ -1,4 +1,4 @@
-var request   = require('request'),
+var http   = require('follow-redirects').http,
     zlib      = require('zlib'),
     fs        = require('fs'),
     jsdom     = require("jsdom"),
@@ -46,63 +46,95 @@ try {
   db.close();
 }
 
+function isUtf8(buffer) {
+ var length = buffer.length;
+
+ for (var i = 0; i < length; i++) {
+
+  c = buffer[i];
+
+  if (c < 0x80) n = 0;
+  else if ((c & 0xE0) == 0xC0) n=1;
+  else if ((c & 0xF0) == 0xE0) n=2;
+  else if ((c & 0xF8) == 0xF0) n=3;
+  else if ((c & 0xFC) == 0xF8) n=4;
+  else if ((c & 0xFE) == 0xFC) n=5;
+  else return false;
+
+  for (var j = 0; j < n; j++) {
+   if ((++i == length) || ((buffer[i] & 0xC0) != 0x80))
+    return false;
+  }
+ }
+ return true;
+}
+
 /**
  *  Scrape article page using dom parser and jquery selectores
  */
 var scraperNewsArticle = function(url, selector, tags) 
 {
-  request({ 
-    url: url, timeout: 10000 /*, headers: { 'accept-encoding': 'gzip, deflate' } */
-  }, function (error, response, body) {
-    if (error && response.statusCode !== 200) {
-      console.error('Error when contacting server');
-      throw new Error('Error when contacting server');
+  var req = http.request(url, function(res) {
+    var page = '';
+    console.log('STATUS: ' + res.statusCode);
+    console.log('HEADERS: ' + JSON.stringify(res.headers));
+    if (typeof selector.enconding == 'string') {
+      console.log("set enconding: " + selector.enconding);
+      res.setEncoding(selector.enconding);
     }
 
-    jsdom.env({
-      html: body, 
-      scripts: ["http://code.jquery.com/jquery.js"] /* todo use local jquery */
-    }, function (err, window) {
-      // start main objects
-      var $         = window.jQuery, 
-          Article   = db.model('Article');
+    res.on('data', function (chunk) {
+      page += chunk;
+    });
 
-      // find element in dom using jquery
-      var title     = $(selector.title),
-          lead      = $(selector.lead),
-          body      = $(selector.body);
+    res.on('end', function () {
+      jsdom.env({
+        html: page, 
+        scripts: ["http://code.jquery.com/jquery.js"] /* todo use local jquery */
+      }, function (err, window) {
+        var _callback = function(err, msg) {
+          winston.info("free memory");
+          window.close();
+          //callback(err, msg);
+        };
 
-      // test if we have found elements
-      if (title.length == 0 && lead.length == 0 && body.length == 0) {
-        throw new Error("Fail scrap page");
-      }
+        // start main objects
+        var $         = window.jQuery, 
+            Article   = db.model('Article');
+        // find element in dom using jquery
+        var $titleEl  = $(selector.title),
+            $leadEl   = $(selector.lead),
+            $bodyEl   = $(selector.body),
+            $authorEl = $(selector.author),
+            $imgEl    = $(selector.image.url),
+            $imgCapEl = $(selector.image.description),
+            $imgAutEl = $(selector.image.author),
 
-      // build object to save
-      var article = new Article({
-        title:      title.text().trim(),
-        lead:       lead.html() || "",
-        body:       body.html() || "",
-        image:      {
-          url:          $(selector.image.url).attr('src'),
-          description:  $(selector.image.description).text(),
-          author:       $(selector.image.author).text()
-        },
-        tags:       tags,
-        author:     $(selector.author).text().trim(),
-        source:     selector.source,
-        sourceUrl:  url,
-      });
-
-      // save article in db
-      /**
-      article.save(function (err, obj) {
-        if (err) // TODO handle the error
-        {
-          throw new Error(err);
+            
+            title     = ($titleEl.length)   ? $titleEl.text().trim() : null,
+            body      = ($bodyEl.length)    ? $bodyEl.html()         : null,
+            lead      = ($leadEl.length)    ? $leadEl.html()         : null,
+            img       = ($imgEl.length)     ? $imgEl.get(0).src      : null,
+            imgCap    = ($imgCapEl.length)  ? $imgCapEl.text()       : null,
+            imgAut    = ($imgAutEl.length)  ? $imgAutEl.text()       : null,
+            author    = ($authorEl.length)  ? $authorEl.text()       : null;
+        // test if we have found elements
+        if ($titleEl.length == 0 && $leadEl.length == 0 && $bodyEl.length == 0) {
+          return _callback(true, 'Fail scrap page selectores dont found any data');
         }
-        db.close();
+        if (img != null && !img.match(/^http:\/\//)) 
+        { 
+          img = selector.host + img.replace(/^\//, '');
+        }
+
+        console.log(body);
       });
-      **/
     });
   });
-}
+
+  req.on('error', function(e) {
+    console.log('problem with request: ' + e.message);
+  });
+
+  req.end();
+  }

@@ -17,6 +17,7 @@ API.prototype = {
 	*/
 	init : function ()
 	{
+		winston.info("start service ...");
 		this.createServer();
 	},
 	/**
@@ -41,8 +42,8 @@ API.prototype = {
 			});
 		});
 
-		}).listen(config.api.port);
-
+		}).listen(config.api.port, config.api.ip);
+		winston.info("service listen on " + config.api.ip + ":" + config.api.port);
 		return server;
 	},
 	/**
