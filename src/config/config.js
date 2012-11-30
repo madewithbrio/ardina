@@ -1,9 +1,9 @@
-exports.config = {
+var config = {
   /* GEARMAN */
   gearman : {
     host    : '127.0.0.1',
     port    : 4730,
-    maxPush : 3
+    maxPush : 10
   },
 
   /* MONGODB */
@@ -14,7 +14,7 @@ exports.config = {
 
   /* API */
   api : {
-    port : 3001,
+    port      : 3001,
     ip        : '127.0.0.1',
   },
 
@@ -35,3 +35,35 @@ exports.config = {
     } 
   }
 }
+
+if (process.env.ENVIRONMENT == 'STG') {
+  config.mongodb.dsn = 'mongodb://192.168.1.74/ardina';
+}
+
+// from command arguments
+var arg_reg_exp = /^--(\w+)=(.*)$/;
+for (var i = 0; i < process.argv.length; i++) {
+  var argument = arg_reg_exp.exec(process.argv[i]);
+  if (argument) {
+    switch(argument[1]) {
+      /** WEB **/
+      case 'web_port':
+        config.web.port = argument[2];
+      break;
+      case 'web_cache':
+        config.web.storePage = !(argument[2] == 'false');
+      break;
+      
+      /** API **/
+      case 'api_port':
+        config.api.port = argument[2];
+      break;
+
+      /** FEED **/
+      case 'feed_refresh':
+        config.feed.refresh = argument[2];
+    }
+  }
+}
+
+exports.config = config;
