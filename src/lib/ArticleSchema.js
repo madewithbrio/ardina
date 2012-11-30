@@ -1,6 +1,8 @@
 var mongoose  = require('mongoose'), Schema = mongoose.Schema;
 require('./KeywordsAnaliser.js');
 
+var months = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dec'];
+
 var ArticleSchema = new Schema({
     title: 			{ type: String, index: true, required: true, trim: true },
     lead: 			{ type: String },
@@ -32,12 +34,18 @@ ArticleSchema.path('pubDate').default(function(){
    return v == 'now' ? new Date() : v;
 });
 
+
+ArticleSchema.virtual('formatDate').get(function () {
+  var date = new Date(this.pubDate);
+  return  date.getUTCDate() + " " + months[date.getUTCMonth()] + " " + date.getUTCFullYear() + " // " + date.getHours() + ":" + date.getMinutes();
+});
+
 ArticleSchema.statics.findByUrl = function (url, callback) {
-  return this.find({ url: url }, callback);
+  return this.findOne({ url: url }, callback);
 }
 
 ArticleSchema.statics.findBySlug = function (slug, callback) {
-  return this.find({ slug: slug }, callback);
+  return this.findOne({ slug: slug }, callback);
 }
 
 ArticleSchema.statics.findHighligts = function(callback) {

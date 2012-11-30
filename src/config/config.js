@@ -22,6 +22,7 @@ exports.config = {
     port      : 3002,
     ip        : '127.0.0.1',
     templates : '../templates',
+    storePage : true,
     cache     : '/var/tmp/ardina/cache'
   },
 

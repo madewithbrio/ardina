@@ -1,4 +1,6 @@
 var config 			= require('./config/config.js').config,
+	fs 				= require('fs'),
+	mkdirp 			= require('mkdirp'),
 	db  			= require('mongoose').createConnection(config.mongodb.dsn, config.mongodb.options),
 	http			= require('http'),
     winston			= require('winston'),
@@ -13,6 +15,23 @@ var WEB = function()
 	this.init();
 };
 
+WEB.cachePage = function(content, pagename)
+{
+	if (!config.web.storePage) return; // cache not actived
+	var location = config.web.cache + pagename.replace(/\/[^\/]+$/, '');
+	if (!fs.exists(location)){
+		mkdirp.sync(location);
+	}
+
+	fs.writeFile(config.web.cache + pagename, content, function(err) {
+	    if(err) {
+	        winston.error("fail store page: " + err);
+	    } else {
+	    	winston.info("page cache stored " + pagename);
+	    }
+	}); 
+};
+
 WEB.prototype = {
 	/**
 	* initialization
@@ -22,6 +41,7 @@ WEB.prototype = {
 		winston.info("start service ...");
 		this.createServer();
 	},
+
 	/**
 	* Creates and starts the server
 	*/
@@ -60,12 +80,14 @@ WEB.prototype = {
 	    }), self = this;
 
 	    router.get(/^\/artigo\/(.+)$/).bind(function (request, slug, params) {
-		    db.model('Article').findBySlug('/'+slug, function(err, data){
+	    	slug = '/'+slug;
+		    db.model('Article').findBySlug(slug, function(err, data){
 		    	if (err) {
     				return request.send(500, {}, { status : false, error : 'Could not fetch article' });
     			} else {
-    				view.renderView('article_detail', data[0], function(content) {
+    				view.renderView('article_detail', data, function(content) {
     					request.send(200, {'Content-Type': 'text/html'}, content);
+    					WEB.cachePage(content, slug);
     				});
     			}
 		    });
