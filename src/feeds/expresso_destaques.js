@@ -30,7 +30,6 @@ var load_feed = function(){
 	    last_link = articles[0].link;
 	    articles = undefined;
 	});
+	setTimeout(load_feed, config.feed.refresh);
 };
 load_feed();
-setInterval(load_feed, config.feed.refresh);
-

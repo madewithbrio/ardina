@@ -32,7 +32,8 @@ var config = {
       abola     : 'http://rss.feedsportal.com/c/32502/f/480420/index.rss',
       economico : 'http://economico.sapo.pt/rss/ultimas',
       sol       : 'http://sol.sapo.pt/rss/',
-      expresso_destaques : 'http://expresso.sapo.pt/manchetes_feed.rss'
+      expresso_destaques : 'http://expresso.sapo.pt/manchetes_feed.rss',
+      publico   : 'http://feeds.feedburner.com/PublicoRSS',
     } 
   }
 }
