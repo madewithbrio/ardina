@@ -10,8 +10,7 @@ var config    = require('./config/config.js').config,
 
     winston   = require('winston'),
     jsdom     = require("jsdom"),
-    selectors = require('./config/Selectors.js'),
-    StringHelper = require('./lib/StringHelper.js');
+    selectors = require('./config/Selectors.js');
     require('./lib/ArticleSchema.js');
 
 try {
@@ -120,10 +119,12 @@ var scraperNewsArticle = function(url, selector, tags, callback)
             imgCap    = ($imgCapEl.length)  ? $imgCapEl.text()       : null,
             imgAut    = ($imgAutEl.length)  ? $imgAutEl.text()       : null,
             author    = ($authorEl.length)  ? $authorEl.text()       : null;
+
         // test if we have found elements
         if ($titleEl.length == 0 && $leadEl.length == 0 && $bodyEl.length == 0) {
           return _callback(true, 'Fail scrap page selectores dont found any data');
         }
+
         if (img != null && !img.match(/^http:\/\//)) 
         { 
           img = selector.host + img.replace(/^\//, '');
