@@ -1,0 +1,13 @@
+#!/bin/sh
+
+NAME=feed_sapo_destaques
+LOGDIR=/var/tmp/ardina/$NAME
+
+if [ ! -d $LOGDIR ] ; then
+  mkdir -p $LOGDIR
+fi
+chown -R nobody $LOGDIR
+rm -f ./data
+ln -s $LOGDIR ./data
+
+exec setuidgid nobody multilog t s50000000 n20 ./data
