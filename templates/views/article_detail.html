@@ -9,8 +9,10 @@
     {{#image.url}}
     <div class="article_image">
         <img src="{{image.url}}" alt="" />
-        {{#image.description}}<p class="caption">{{image.description}}</p>{{/image.description}}
-        {{#image.author}}<p class="author">{{image.author}}</p>{{/image.author}}
+        <div class="details">
+            {{#image.description}}<p class="caption">{{image.description}}</p>{{/image.description}}
+            {{#image.author}}<p class="author">{{image.author}}</p>{{/image.author}}
+        </div>
     </div>
     {{/image.url}}
     <div class="article_body">
