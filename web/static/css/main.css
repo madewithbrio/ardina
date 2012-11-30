@@ -175,6 +175,7 @@ body > .main {margin:50px 0 0 0;background:#FFF;}
 .list li a .source.economico {background:#D9A027;}
 .list li a .source.rtp {background:#277AD9;}
 .list li a .source.expresso {background:#476D76;}
+.list li a .source.abola {background:red;}
 .list li a .thumb {position:relative;min-height:100px;background:rgba(0,0,0,0.1);margin:0 0 3px 0;}
 .list li a .thumb img {width:100%;}
 .list li a .details {}
@@ -200,10 +201,11 @@ body > .main {margin:50px 0 0 0;background:#FFF;}
 .no-touch .article_detail .original:hover {background:#333;}
 .no-touch .article_detail .original:hover:after {border-left-color:#333;}
 .article_detail img {width:100%;margin:0 0 1em 0;}
-.article_detail .article_body {font-family:'Georgia',serif;}
+.article_detail .article_body {padding-bottom:1.6em;font-family:'Georgia',serif;}
 .article_detail .article_body p {margin:0 0 1.6em 0;line-height:1.6em;}
 /*.article_detail .article_body p:first-letter {float:left;font-size:100px;line-height:80px;}*/
-.article_detail .article_body a {color:#D68800;}
+.article_detail .article_body a,
+.article_detail .article_body a:visited {font-weight:bold;color:#D68800;}
 .no-touch .article_detail .article_body a:hover {color:#333;text-decoration:underline;}
 .article_detail > footer {padding:26px 0 0 0;margin:0 0 30px 0;border-top:1px solid #DDD;}
 .article_detail >footer .original {top:auto;bottom:2px;}
@@ -225,14 +227,16 @@ body > .main {margin:50px 0 0 0;background:#FFF;}
 .list li {/*border:none;*/}
 
 .news_list li {float:left;width:33%;/*box-shadow:-1px -1px 0 0 #DDD inset;*/}
-.news_list li:nth-child(3n+1) {width:34%;}
+.news_list li:nth-child(3n+1) {width:34%;clear:both;}
 .news_list li a .details .title {font-size:16px;}
-.highlights_list li {float:left;width:50%;}
-.highlights_list li:nth-child(3n+1) {width:50%;}
-.highlights_list li a .details .title {font-size:20px;}
+.news_list.highlights_list li {float:left;width:50%;}
+.news_list.highlights_list li:nth-child(3n+1) {clear:none;}
+.news_list.highlights_list li:nth-child(2n+1) {clear:both;}
+.news_list.highlights_list li a .details .title {font-size:20px;}
 
 .article_detail .article_body {font-size:18px;}
 }
+
 
 @media only screen and (min-width:768px) {
 .news_list {padding:20px;}
@@ -268,7 +272,7 @@ body > header {width:150px;height:100%;}
 .no-touch .main_menu ul:before {display:none;}
 .no-touch .main_menu ul li {float:left;}
 .no-touch .main_menu ul li a {padding:5px 10px;line-height:40px;}
-.no-touch .main_menu ul li a.selected {box-shadow:0 -3px 0 0 #D68800 inset;}
+.no-touch .main_menu ul li a.selected {box-shadow:0 -3px 0 0 #FFF inset;}
 .no-touch .main_menu ul li a.selected:hover {cursor:default;}
 
 body > .main {margin:0 0 0 150px;}
@@ -276,12 +280,14 @@ body > .main {margin:0 0 0 150px;}
 
 .no-touch .news_list {padding:20px 50px;}
 .news_list li {width:25%;}
-.news_list li:nth-child(3n+1) {width:25%;}
-.highlights_list li {width:33%;}
-.highlights_list li:nth-child(3n+1) {width:34%;}
-.no-touch .highlights_list li {width:32%;margin:0 2% 30px 0;}
-.no-touch .highlights_list li:nth-child(3n+1) {width:32%;}
-.no-touch .highlights_list li:nth-child(3n) {margin:0;}
+.news_list li:nth-child(3n+1) {width:25%;clear:none;}
+.news_list li:nth-child(4n+1) {clear:both;}
+.news_list.highlights_list li {width:33%;}
+.news_list.highlights_list li:nth-child(2n+1) {clear:none;}
+.news_list.highlights_list li:nth-child(3n+1) {width:34%;clear:both;}
+.no-touch .news_list.highlights_list li {width:32%;margin:0 2% 30px 0;}
+.no-touch .news_list.highlights_list li:nth-child(3n+1) {width:32%;}
+.no-touch .news_list.highlights_list li:nth-child(3n) {margin:0;}
 
 
 
@@ -297,8 +303,8 @@ body > header {background:#5A555E;}
 .system_menu ul li.plus a,
 .system_menu ul li.font a,
 .system_menu ul li.minus a {color:#5A555E;}
-.article_detail .article_body a {font-weight:bold;color:#8D67AA;}
-.no-touch .main_menu ul li a.selected {box-shadow:0 -3px 0 0 #FFF inset;}
+.article_detail .article_body a,
+.article_detail .article_body a:visited {color:#514DB0;}
 @media only screen and (min-width:640px) {
 .main_menu ul {background:#5A555E;}
 .main_menu ul:before {border-bottom-color:#5A555E}

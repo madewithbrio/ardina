@@ -1,4 +1,19 @@
 var selectors = {
+  'http://noticias.sapo.pt/': {
+    title:    '.story h1.entry-title',
+    lead:     '.story p.lead',
+    body:     '.story div.entry-content',
+    image:    {
+      url:          '.story .photo img',
+      description:  '.story .photo .caption',
+      author:       '#not_exists',
+    },
+
+    author:   '.story p.author',
+    tags:     '.story ul.tags',
+    source:   'sapo'
+  },
+
   'http://www.publico.pt/': {
     title:    'article header h1',
     lead:     'article header div[itemprop="description"]',
@@ -124,7 +139,6 @@ var selectors = {
     lead:     '#not_exists',
     body:     '#NewsSummary',
     exclude_body: 'div.tags',
-
     image:    {
       url:          '#NewsMain img',
       description:  '#not_exists',
