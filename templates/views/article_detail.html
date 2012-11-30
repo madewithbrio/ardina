@@ -7,7 +7,11 @@
         <a href="{{sourceUrl}}" class="original">Notícia original</a>
     </header>
     {{#image.url}}
-    <img src="{{image.url}}" alt="" />
+    <div class="article_image">
+        <img src="{{image.url}}" alt="" />
+        {{#image.description}}<p class="caption">{{image.description}}</p>{{/image.description}}
+        {{#image.author}}<p class="author">{{image.author}}</p>{{/image.author}}
+    </div>
     {{/image.url}}
     <div class="article_body">
         {{& body}}
