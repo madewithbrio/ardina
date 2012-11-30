@@ -34,6 +34,7 @@ var config = {
       sol       : 'http://sol.sapo.pt/rss/',
       expresso_destaques : 'http://expresso.sapo.pt/manchetes_feed.rss',
       publico   : 'http://feeds.feedburner.com/PublicoRSS',
+      sapo_destaques : 'http://services.sapo.pt/RSS/Feed/noticias/homepage_geral'
     } 
   }
 }

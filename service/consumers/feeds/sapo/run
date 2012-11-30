@@ -1,0 +1,11 @@
+#!/bin/sh
+
+exec 2>&1
+
+export PATH=/usr/local/bin:/usr/bin:/bin:/usr/bin/X11:/usr/games:/usr/sbin:/sbin
+
+echo "3 2 1 ..."
+sleep 3
+DIR=/servers/ardina/src
+
+exec setuidgid nobody node ${DIR}/feeds/sapo_destaques.js
