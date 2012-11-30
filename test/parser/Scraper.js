@@ -125,6 +125,12 @@ var scraperNewsArticle = function(url, selector, tags)
           img = selector.host + img.replace(/^\//, '');
         }
 
+        if (typeof selector.exclude_body == 'string') {
+          console.log("exclude body "+ selector.exclude_body);
+          $bodyEl.find(selector.exclude_body).remove();
+          body = $bodyEl.html();
+        }
+
         console.log(body);
       });
     });
