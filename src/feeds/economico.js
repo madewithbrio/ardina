@@ -6,7 +6,7 @@ var config    	= require('../config/config.js').config,
     feed_url 	= config.feed.source.economico,
     last_link 	= undefined;
 
-setInterval(function(){
+var load_feed = function(){
 	winston.info("read feed: " + feed_url);
 	rss.parseURL(feed_url, function(articles) {
 
@@ -30,5 +30,6 @@ setInterval(function(){
 	    last_link = articles[0].link;
 	    articles = undefined;
 	});
-}, config.feed.refresh);
-
+	setTimeout(load_feed, config.feed.refresh);
+};
+load_feed();
