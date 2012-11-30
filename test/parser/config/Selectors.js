@@ -41,7 +41,8 @@ var selectors = {
 
     author:   '#detalheArtigoDefault span.atigoFonte',
     tags:     '',
-    source:   'expresso'    
+    source:   'expresso',
+    enconding:'binary'
   },
 
   'http://www.abola.pt/': {

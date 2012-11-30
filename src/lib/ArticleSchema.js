@@ -1,4 +1,4 @@
-var mongoose  = require('mongoose'), Schema = mongoose.Schema;
+var mongoose  = require('mongoose'), Schema = mongoose.Schema, StringHelper = require('./StringHelper.js');
 require('./KeywordsAnaliser.js');
 
 var months = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dec'];
@@ -37,7 +37,11 @@ ArticleSchema.path('pubDate').default(function(){
 
 ArticleSchema.virtual('formatDate').get(function () {
   var date = new Date(this.pubDate);
-  return  date.getUTCDate() + " " + months[date.getUTCMonth()] + " " + date.getUTCFullYear() + " // " + date.getHours() + ":" + date.getMinutes();
+  return date.getUTCDate() + " " + months[date.getUTCMonth()] + " " + date.getUTCFullYear() + " // " + date.getHours() + ":" + date.getMinutes();
+});
+
+ArticleSchema.virtual('lead_text').get(function () {
+  return StringHelper.stripTags(this.lead);
 });
 
 ArticleSchema.statics.findByUrl = function (url, callback) {
