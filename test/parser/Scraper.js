@@ -3,8 +3,6 @@ var http   = require('follow-redirects').http,
     fs        = require('fs'),
     jsdom     = require("jsdom"),
     mongoose  = require('mongoose'),
-    Iconv     = require('iconv').Iconv,
-    Buffer    = require('buffer').Buffer,
     selectors = require('./config/Selectors.js');
     require('./lib/ArticleSchema.js');
 var StringHelper = require('../../src/lib/StringHelper.js');
