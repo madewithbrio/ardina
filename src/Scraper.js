@@ -113,7 +113,7 @@ var scraperNewsArticle = function(url, selector, tags, callback)
 
             
             title     = ($titleEl.length)   ? $titleEl.text().trim() : null,
-            body      = ($bodyEl.length)    ? $bodyEl.html()         : null,
+            //body      = ($bodyEl.length)    ? $bodyEl.html()         : null,
             lead      = ($leadEl.length)    ? $leadEl.html()         : null,
             img       = ($imgEl.length)     ? $imgEl.get(0).src      : null,
             imgCap    = ($imgCapEl.length)  ? $imgCapEl.text()       : null,
@@ -125,31 +125,32 @@ var scraperNewsArticle = function(url, selector, tags, callback)
           return _callback(true, 'Fail scrap page selectores dont found any data');
         }
 
-        if (img != null && !img.match(/^http:\/\//)) 
+        if (img != null && !img.match(/^[\w]{3,}:\/\//)) 
         { 
           img = selector.host + img.replace(/^\//, '');
         }
         
+        
         // body links
         $bodyEl.find('a').each(function(idx, el){
           var $el = $(el), href= $(el).attr('href');
-          if (!href.match(/^http:\/\//)) {
-            $el.attr('href', selector.host + href.replace(/^\//, ''))
+          console.log(href);
+          if (!href.match(/^[\w]{3,}:\/\//)) {
+            $bodyEl.find($(el)).attr('href', selector.host + href.replace(/^\//, ''));
           }
         });
         $bodyEl.find('img').each(function(idx, el){
-          var $el = $(el), src= $(el).attr('src');
-          if (!src.match(/^http:\/\//)) {
-            $el.attr('src', selector.host + src.replace(/^\//, ''))
+          var src= $(el).attr('src');
+          console.log(src);
+          if (!src.match(/^[\w]{3,}:\/\//)) {
+            $bodyEl.find($(el)).attr('src', selector.host + src.replace(/^\//, ''));
           }
         });
-        
-
         if (typeof selector.exclude_body == 'string') {
           console.log("exclude body "+ selector.exclude_body);
           $bodyEl.find(selector.exclude_body).remove();
-          body = $bodyEl.html();
         }
+        body = $bodyEl.html();
 
         // build object to save
         var article = new Article({
