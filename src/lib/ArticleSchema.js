@@ -1,7 +1,7 @@
 var mongoose  = require('mongoose'), Schema = mongoose.Schema, StringHelper = require('./StringHelper.js');
 require('./KeywordsAnaliser.js');
 
-var months = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dec'];
+var months = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'];
 
 var ArticleSchema = new Schema({
     title: 			{ type: String, index: true, required: true, trim: true },
