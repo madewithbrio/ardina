@@ -37,8 +37,9 @@ ArticleSchema.path('pubDate').default(function(){
 
 ArticleSchema.virtual('formatDate').get(function () {
   var date = new Date(this.pubDate);
+  var hours   = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
   var minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
-  return date.getUTCDate() + " " + months[date.getUTCMonth()] + " " + date.getUTCFullYear() + " // " + date.getHours() + ":" + minutes;
+  return date.getUTCDate() + " " + months[date.getUTCMonth()] + " " + date.getUTCFullYear() + " // " + hours + ":" + minutes;
 });
 
 ArticleSchema.virtual('lead_text').get(function () {

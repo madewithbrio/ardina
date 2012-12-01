@@ -6,7 +6,7 @@ var config 			= require('./config/config.js').config,
     winston			= require('winston'),
     journey			= require('journey'),
     request 		= require('request'),
-    view 			= require('./lib/View.js'),
+    View 			= require('./lib/View.js'),
     async 			= require('async');
     require('./lib/ArticleSchema.js');
 
@@ -85,6 +85,7 @@ WEB.prototype = {
 		    	if (err) {
     				return request.send(500, {}, { status : false, error : 'Could not fetch article' });
     			} else {
+    				var view = new View();
     				view.assign('has_font_resizer', true);
     				view.renderView('article_detail', data, function(content) {
     					request.send(200, {'Content-Type': 'text/html'}, content);
@@ -109,6 +110,7 @@ WEB.prototype = {
 				   if (err) {
 	    				return request.send(500, {}, { status : false, error : 'Could not fetch article' });
 	    			} else {
+	    				var view = new View();
 	    				view.renderView('homepage', data, function(content) {
 	    					request.send(200, {'Content-Type': 'text/html'}, content);
 	    				});
