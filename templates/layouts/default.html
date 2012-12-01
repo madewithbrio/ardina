@@ -25,7 +25,7 @@
         <script src="/static/js/vendor/modernizr-2.6.2.min.js"></script>
     </head>
     <!--body class="has_back has_font_resizer"-->
-    <body class="">
+    <body class="{{#has_font_resizer}}has_font_resizer{{/has_font_resizer}}">
         <!--[if lt IE 7]>
             <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
         <![endif]-->
@@ -46,13 +46,13 @@
                 </nav>
                 <nav class="main_menu scrollable">
                     <ul>
-                        <li><a href="#" class="selected">Destaques</a></li>
-                        <li><a href="#">Política</a></li>
-                        <li><a href="#">Economia</a></li>
-                        <li><a href="#">Desporto</a></li>
-                        <li><a href="#">Sociedade</a></li>
-                        <li><a href="#">Tec &amp; Ciência</a></li>
-                        <li><a href="#">Cultura</a></li>
+                        <li><a href="/" class="selected">Homepage</a></li>
+                        <li><a href="/politica">Política</a></li>
+                        <li><a href="/economia">Economia</a></li>
+                        <li><a href="/desporto">Desporto</a></li>
+                        <li><a href="/sociedade">Sociedade</a></li>
+                        <li><a href="/tec_ciencia">Tec &amp; Ciência</a></li>
+                        <li><a href="/cultura">Cultura</a></li>
                     </ul>
                 </nav>
             </div>

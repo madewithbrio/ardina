@@ -85,6 +85,7 @@ WEB.prototype = {
 		    	if (err) {
     				return request.send(500, {}, { status : false, error : 'Could not fetch article' });
     			} else {
+    				view.assign('has_font_resizer', true);
     				view.renderView('article_detail', data, function(content) {
     					request.send(200, {'Content-Type': 'text/html'}, content);
     					WEB.cachePage(content, slug);
