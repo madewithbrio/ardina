@@ -130,6 +130,21 @@ var scraperNewsArticle = function(url, selector, tags, callback)
           img = selector.host + img.replace(/^\//, '');
         }
         
+        // body links
+        $bodyEl.find('a').each(function(idx, el){
+          var $el = $(el), href= $(el).attr('href');
+          if (!href.match(/^http:\/\//)) {
+            $el.attr('href', selector.host + href.replace(/^\//, ''))
+          }
+        });
+        $bodyEl.find('img').each(function(idx, el){
+          var $el = $(el), src= $(el).attr('src');
+          if (!src.match(/^http:\/\//)) {
+            $el.attr('src', selector.host + src.replace(/^\//, ''))
+          }
+        });
+        
+
         if (typeof selector.exclude_body == 'string') {
           console.log("exclude body "+ selector.exclude_body);
           $bodyEl.find(selector.exclude_body).remove();
