@@ -76,4 +76,4 @@ View.prototype = {
 	},
 
 };
-module.exports = new View();
+module.exports = View;
