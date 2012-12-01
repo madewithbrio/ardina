@@ -95,6 +95,33 @@ WEB.prototype = {
 		    });
 		});
 
+	    router.get(/^\/(desporto|politica|economia|sociedade|tec_ciencia|cultura)\/?$/).bind(function (request, category) {
+			try {
+				var Article = db.model('Article'), data = {};
+
+				async.parallel({
+				   highlights : function(cb){
+				   		Article.findHighligts([category],cb);
+				   },
+				   latested : function(cb){
+				   		Article.findLatested([category],cb);
+				   }
+				}, function(err,data){
+				   if (err) {
+	    				return request.send(500, {}, { status : false, error : 'Could not fetch article' });
+	    			} else {
+	    				var view = new View();
+	    				view.renderView('homepage', data, function(content) {
+	    					request.send(200, {'Content-Type': 'text/html'}, content);
+	    				});
+	    			}
+				});
+			} catch (e) {
+				return request.send(500, {}, { status : false, error : 'sorry we can`t help you now' });
+			}
+
+		});
+
 		router.get(/^\/$/).bind(function (request) {
 			try {
 				var Article = db.model('Article'), data = {};

@@ -13,7 +13,6 @@ $(document).ready(function() {
 	});
 
 	$('.main_menu li a').bind('click', function(e){
-		e.preventDefault();
 		$('.main_menu li').each(function() {
     		$(this).children('a').removeClass('selected');
 		});

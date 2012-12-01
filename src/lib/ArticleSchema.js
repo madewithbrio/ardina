@@ -58,12 +58,19 @@ ArticleSchema.statics.findBySlug = function (slug, callback) {
   return this.findOne({ slug: slug }, callback);
 }
 
-ArticleSchema.statics.findHighligts = function(callback) {
-  return this.find({'image.url' : { $ne : null }}).sort({ pubDate : -1 }).limit(6).exec(callback);
+ArticleSchema.statics.findHighligts = function(tags, callback) {
+  if (typeof tags == 'function') { callback = tags; tags = undefined; }
+  var filter = {'image.url' : { $ne : null }};
+  if (typeof tags == 'object') { filter.tags = {$all: tags}};
+
+  return this.find(filter).sort({ pubDate : -1 }).limit(6).exec(callback);
 }
 
-ArticleSchema.statics.findLatested = function(callback) {
-  return this.find({}).sort({ pubDate : -1 }).skip(10).limit(12).exec(callback);
+ArticleSchema.statics.findLatested = function(tags, callback) {
+  if (typeof tags == 'function') { callback = tags; tags = undefined; }
+  var filter = {};
+  if (typeof tags == 'object') { filter.tags = {$all: tags}};
+  return this.find(filter).sort({ pubDate : -1 }).skip(10).limit(12).exec(callback);
 }
 
 function slugGenerator (options){
