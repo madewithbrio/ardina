@@ -113,6 +113,7 @@ WEB.prototype = {
 	    				var view = new View();
 	    				view.renderView('homepage', data, function(content) {
 	    					request.send(200, {'Content-Type': 'text/html'}, content);
+	    					delete view;
 	    				});
 	    			}
 				});
@@ -140,6 +141,7 @@ WEB.prototype = {
 	    				var view = new View();
 	    				view.renderView('homepage', data, function(content) {
 	    					request.send(200, {'Content-Type': 'text/html'}, content);
+	    					delete view;
 	    				});
 	    			}
 				});

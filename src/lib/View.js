@@ -1,6 +1,8 @@
 var fs = require('fs'), Mustache = require('mustache'), config = require('../config/config.js').config;
 
-var View = function() {};
+var View = function() {
+	this.environment = {};
+};
 View.prototype = {
 	environment : {},
 
