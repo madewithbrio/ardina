@@ -2,6 +2,12 @@ var fs = require('fs'), Mustache = require('mustache'), config = require('../con
 
 var View = function() {};
 View.prototype = {
+	environment : {},
+
+	assign : function(name, data) {
+		this.environment[name] = data;
+	},
+
 	renderView : function(name, data, callback) {
 		var self = this;
 	    if (typeof callback !== 'function') throw ViewCallbackException;
@@ -65,10 +71,8 @@ View.prototype = {
 	setLayoutContent : function(layout, content) {
 		var self = this;
 		var layout = layout ? layout : '';
-		var context = {
-		'content_for_layout' : content ? content : ''
-		};
-		return Mustache.to_html(layout, context);
+		self.assign('content_for_layout', content ? content : '');
+		return Mustache.to_html(layout, self.environment);
 	},
 
 };
