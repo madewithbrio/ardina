@@ -255,6 +255,7 @@ body > .main {margin:50px 0 0 0;background:#FFF;}
 .news_list_container {padding:10px 20px;}
 .news_list_container h2 {font-size:50px;}
 .article_detail {padding:20px 0;}
+.article_detail > header .title {font-size:32px;font-weight:700;}
 }
 
 @media only screen and (min-width:1024px) {
