@@ -19,7 +19,7 @@ var load_feed = function(){
 			if (typeof articles[i].link === 'string') {
 				winston.info("send page to scrap to queue " + articles[i].link);
 				var category = articles[i].category ? articles[i].category.toLowerCase() : undefined;
-				var data = {url: articles[i].link, tags: [ category ], pubDate: articles[i].pubDate};
+				var data = {url: articles[i].link, tags: [ category ], pubDate: articles[i].pubdate, update: true};
 				var job = gearClient.submitJob('scraper', JSON.stringify(data))
 				job.on('error', function(err){
 					winston.error(err);

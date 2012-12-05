@@ -21,7 +21,7 @@ var load_feed = function(){
 				var data = {
 							url: articles[i].link, 
 							tags: ['destaques'], 
-							pubDate: articles[i].pubDate, 
+							pubDate: articles[i].pubdate, 
 							update: true
 							};
 				var job = gearClient.submitJob('scraper', JSON.stringify(data))
