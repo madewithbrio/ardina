@@ -222,7 +222,7 @@ var selectors = {
     title:    '.veryfirst-frame h1',
     lead:     '.veryfirst-frame h2',
     body:     '.first-frame',
-    date:     'ul.date > li:nth-child(2) > span'
+    date:     'ul.date > li:nth-child(2) > span',
     exclude_body: 'iframe,script,.votes-row,.row',
     image:    {
       url:          '#mod_fv img',
