@@ -18,7 +18,7 @@ var load_feed = function(){
 	    	} 
 			if (typeof articles[i].guid === 'string') {
 				winston.info("send page to scrap to queue " + articles[i].guid);
-				var data = {url: articles[i].guid, tags: ['desporto', articles[i].category]};
+				var data = {url: articles[i].guid, tags: ['desporto', articles[i].category], pubDate: articles[i].pubDate};
 				var job = gearClient.submitJob('scraper', JSON.stringify(data))
 				job.on('error', function(err){
 					winston.error(err);

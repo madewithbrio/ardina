@@ -56,12 +56,13 @@ gearClient.registerWorker('scraper', function(payload, worker) {
 
   Article.count({sourceUrl: data.url}, function(err, count) {
     if (err) return callback(err, 'fail find if article allready scraped');
-    if (count !== 0) return callback(true, 'article allready scraped');
+    if (count !== 0 && data.update !== true) return callback(true, 'article allready scraped');
 
     var selector = selectors.getSelector(data.url);
     if (typeof selector === 'undefined') return callback(true, 'site dont have selector');
     try {
-      scraperNewsArticle(data.url, selector, data.tags, callback);
+      var options = {tags: data.tags, pubDate: data.pubDate, update: count};
+      scraperNewsArticle(data.url, selector, options, callback);
     } catch (e) {
       return callback(true, 'fail scrap page: ' + e);
     }
@@ -72,7 +73,7 @@ gearClient.registerWorker('scraper', function(payload, worker) {
 /**
  *  Scrape article page using dom parser and jquery selectores
  */
-var scraperNewsArticle = function(url, selector, tags, callback) 
+var scraperNewsArticle = function(url, selector, options, callback) 
 {
   var req = http.request(url, function(res) {
     var page = '';
@@ -106,19 +107,25 @@ var scraperNewsArticle = function(url, selector, tags, callback)
         var $titleEl  = $(selector.title),
             $leadEl   = $(selector.lead),
             $bodyEl   = $(selector.body),
+            $dateEl   = $(selector.date),
             $authorEl = $(selector.author),
             $imgEl    = $(selector.image.url),
             $imgCapEl = $(selector.image.description),
             $imgAutEl = $(selector.image.author),
-
+            $tags     = $(selector.tags),
             
-            title     = ($titleEl.length)   ? $titleEl.text().trim() : null,
-            //body      = ($bodyEl.length)    ? $bodyEl.html()         : null,
-            lead      = ($leadEl.length)    ? $leadEl.html()         : null,
-            img       = ($imgEl.length)     ? $imgEl.get(0).src      : null,
-            imgCap    = ($imgCapEl.length)  ? $imgCapEl.text()       : null,
-            imgAut    = ($imgAutEl.length)  ? $imgAutEl.text()       : null,
-            author    = ($authorEl.length)  ? $authorEl.text()       : null;
+            title     = ($titleEl.length)   ? $titleEl.text().trim()    : null,
+            //body    = ($bodyEl.length)    ? $bodyEl.html()            : null,
+            lead      = ($leadEl.length)    ? $leadEl.html()            : null,
+            img       = ($imgEl.length)     ? $imgEl.get(0).src         : null,
+            imgCap    = ($imgCapEl.length)  ? $imgCapEl.text()          : null,
+            imgAut    = ($imgAutEl.length)  ? $imgAutEl.text()          : null,
+            author    = ($authorEl.length)  ? $authorEl.text()          : null;
+            date      = ($dateEl.length)    ? new Date($dateEl.text())  : new Date(options.pubDate);
+
+        // found tags and append it to options tags
+        var tags = options.tags || [];
+        $tags.each(function(){ tags.push($(this).text()); });
 
         // test if we have found elements
         if ($titleEl.length == 0 && $leadEl.length == 0 && $bodyEl.length == 0) {
@@ -134,14 +141,12 @@ var scraperNewsArticle = function(url, selector, tags, callback)
         // body links
         $bodyEl.find('a').each(function(idx, el){
           var $el = $(el), href= $(el).attr('href');
-          console.log(href);
           if (!href.match(/^[\w]{3,}:\/\//)) {
             $bodyEl.find($(el)).attr('href', selector.host + href.replace(/^\//, ''));
           }
         });
         $bodyEl.find('img').each(function(idx, el){
           var src= $(el).attr('src');
-          console.log(src);
           if (!src.match(/^[\w]{3,}:\/\//)) {
             $bodyEl.find($(el)).attr('src', selector.host + src.replace(/^\//, ''));
           }
@@ -152,27 +157,40 @@ var scraperNewsArticle = function(url, selector, tags, callback)
         }
         body = $bodyEl.html();
 
-        // build object to save
-        var article = new Article({
-          title:      title,
-          lead:       lead,
-          body:       body,
-          image:      {
-            url:          img,
-            description:  imgCap,
-            author:       imgAut
-          },
-          tags:       tags,
-          author:     author,
-          source:     selector.source,
-          sourceUrl:  url,
-        });
-
         // save article in db
-        article.save(function (err, obj) {
-          if (err) return _callback(true, 'Fail save page: '+err);
-          _callback(false, 'page scraped');
-        });
+        var storeCallback = function (err, obj) {
+            if (err) return _callback(true, 'Fail save page: '+err);
+            _callback(false, 'page scraped');
+        };
+        if (options.update === 0) {
+          // build object to save
+          var article = new Article({
+            title:      title,
+            lead:       lead,
+            body:       body,
+            image:      {
+              url:          img,
+              description:  imgCap,
+              author:       imgAut
+            },
+            tags:       tags,
+            author:     author,
+            source:     selector.source,
+            sourceUrl:  selector.url,
+            pubDate:    date
+          });
+
+          // store
+          article.save(storeCallback);
+        } else {
+          Article.findOne({sourceUrl: selector.url}, function (err, article){
+            if (err) storeCallback(err, 'fail find article to update');
+            article.tags = tags;
+            article.body = body;
+            article.pubDate = date;
+            article.save(storeCallback);
+          });
+        }
       });
     });
   });
