@@ -121,7 +121,7 @@ var scraperNewsArticle = function(url, selector, options, callback)
             imgCap    = ($imgCapEl.length)  ? $imgCapEl.text()          : null,
             imgAut    = ($imgAutEl.length)  ? $imgAutEl.text()          : null,
             author    = ($authorEl.length)  ? $authorEl.text()          : null;
-            date      = ($dateEl.length)    ? new Date($dateEl.text())  : options.pubDate;
+            date      = ($dateEl.length)    ? new Date($dateEl.text())  : new Date(options.pubDate);
 
         // found tags and append it to options tags
         var tags = options.tags || [];
@@ -141,14 +141,12 @@ var scraperNewsArticle = function(url, selector, options, callback)
         // body links
         $bodyEl.find('a').each(function(idx, el){
           var $el = $(el), href= $(el).attr('href');
-          console.log(href);
           if (!href.match(/^[\w]{3,}:\/\//)) {
             $bodyEl.find($(el)).attr('href', selector.host + href.replace(/^\//, ''));
           }
         });
         $bodyEl.find('img').each(function(idx, el){
           var src= $(el).attr('src');
-          console.log(src);
           if (!src.match(/^[\w]{3,}:\/\//)) {
             $bodyEl.find($(el)).attr('src', selector.host + src.replace(/^\//, ''));
           }
@@ -189,9 +187,7 @@ var scraperNewsArticle = function(url, selector, options, callback)
             if (err) storeCallback(err, 'fail find article to update');
             article.tags = tags;
             article.body = body;
-            if (date) {
-              article.pubDate = date;
-            }
+            article.pubDate = date;
             article.save(storeCallback);
           });
         }
