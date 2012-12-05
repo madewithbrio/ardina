@@ -129,7 +129,7 @@ WEB.prototype = {
 
 				async.parallel({
 				   highlights : function(cb){
-				      Article.findHighligts(cb);
+				      Article.findHighligts(['destaques'], cb);
 				   },
 				   latested : function(cb){
 				      Article.findLatested(cb);
