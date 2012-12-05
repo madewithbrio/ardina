@@ -164,8 +164,11 @@ var scraperNewsArticle = function(url, selector, options, callback)
             if (err) return _callback(true, 'Fail save page: '+err);
             _callback(false, 'page scraped');
         };
+
+        winston.log(date);
+        
         if (options.update === 0) {
-          // build object to save
+          winston.log("save new article");
           var article = new Article({
             title:      title,
             lead:       lead,
@@ -185,6 +188,7 @@ var scraperNewsArticle = function(url, selector, options, callback)
           // store
           article.save(storeCallback);
         } else {
+          winston.log("update article");
           Article.findOne({sourceUrl: selector.url}, function (err, article){
             if (err) storeCallback(err, 'fail find article to update');
             article.tags = tags;
