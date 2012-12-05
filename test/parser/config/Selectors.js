@@ -150,7 +150,7 @@ var selectors = {
     source:   'tsf'
   },
 
-  'http://www.sol.pt/': {
+  'http://sol.sapo.pt' : {
     title:    '#NewsTitle',
     lead:     '#not_exists',
     body:     '#NewsSummary',
@@ -166,6 +166,10 @@ var selectors = {
 
     source:   'sol',
     enconding:'binary'
+  },
+
+  'http://www.sol.pt/' : {
+    alias: 'http://sol.sapo.pt',
   },
 
   'http://www.cmjornal.xl.pt/': {
@@ -217,7 +221,9 @@ var selectors = {
   'http://www.agenciafinanceira.iol.pt/': {
     title:    '.veryfirst-frame h1',
     lead:     '.veryfirst-frame h2',
-    body:     '.first-frame .texto',
+    body:     '.first-frame',
+    date:     'ul.date > li:nth-child(2) > span',
+    exclude_body: 'iframe,script,.votes-row,.row',
     image:    {
       url:          '#mod_fv img',
       description:  '#not_exists',
@@ -244,10 +250,18 @@ var selectors = {
 
 exports.getSelector = function(url) {
   if (typeof url === 'undefined') return;
-  for (var host in selectors) {
-    if (url.indexOf(host) == 0) {
-      var selector = selectors[host];
-      selector.host = host
+  for (var urlStart in selectors) {
+    if (url.indexOf(urlStart) == 0) {
+      var selector = selectors[urlStart];
+      if (typeof selector.alias === 'string') {
+        var alias = selector.alias;
+        selector = selectors[alias];
+        selector.host = alias;
+        selector.url  = url.replace(urlStart, alias);
+      } else {
+        selector.host = urlStart;
+        selector.url  = url;
+      }
       return selector;
     }
   }

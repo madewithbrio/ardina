@@ -27,7 +27,7 @@ if (process.argv.length > 3) {
   tags = process.argv.slice(3, process.argv.length);
 }
 
-var db = mongoose.createConnection('mongodb://localhost/test', { server: { auto_reconnect: false, poolSize: 1 }});
+var db = mongoose.createConnection('mongodb://vm2/test', { server: { auto_reconnect: false, poolSize: 1 }});
 try {
   db.on('error', console.error.bind(console, 'connection error:'));
   db.once('open', function callback () {
@@ -107,8 +107,9 @@ var scraperNewsArticle = function(url, selector, tags)
             $imgEl    = $(selector.image.url),
             $imgCapEl = $(selector.image.description),
             $imgAutEl = $(selector.image.author),
+            $dateEl   = $(selector.date),
+            $tags     = $(selector.tags),
 
-            
             title     = ($titleEl.length)   ? $titleEl.text().trim() : null,
             body      = ($bodyEl.length)    ? $bodyEl.html()         : null,
             lead      = ($leadEl.length)    ? $leadEl.html()         : null,
@@ -116,6 +117,12 @@ var scraperNewsArticle = function(url, selector, tags)
             imgCap    = ($imgCapEl.length)  ? $imgCapEl.text()       : null,
             imgAut    = ($imgAutEl.length)  ? $imgAutEl.text()       : null,
             author    = ($authorEl.length)  ? $authorEl.text()       : null;
+            date      = ($dateEl.length)    ? new Date($dateEl.text()) : null;
+
+        var options = {tags: ['destaques']};
+        var tags = options.tags || [];
+        $tags.each(function(){ tags.push($(this).text()); });
+
         // test if we have found elements
         if ($titleEl.length == 0 && $leadEl.length == 0 && $bodyEl.length == 0) {
           return _callback(true, 'Fail scrap page selectores dont found any data');
@@ -131,7 +138,9 @@ var scraperNewsArticle = function(url, selector, tags)
           body = $bodyEl.html();
         }
 
-        console.log(body);
+        console.log(tags);
+        console.log(selector.url);
+        console.log(selector.host);
       });
     });
   });
