@@ -6,6 +6,8 @@ export PATH=/usr/local/bin:/usr/bin:/bin:/usr/bin/X11:/usr/games:/usr/sbin:/sbin
 
 echo "3 2 1 ..."
 sleep 3
-DIR=/server/ardina/src
+DIR=/servers/ardina/src
 
-cd ${DIR} && exec setuidgid nobody node WEB.js
+ENVIRONMENT='STG'
+export ENVIRONMENT
+cd ${DIR} && exec setuidgid nobody node WEB.js --web_port=3001
