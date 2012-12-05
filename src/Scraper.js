@@ -121,7 +121,9 @@ var scraperNewsArticle = function(url, selector, options, callback)
             imgCap    = ($imgCapEl.length)  ? $imgCapEl.text()          : null,
             imgAut    = ($imgAutEl.length)  ? $imgAutEl.text()          : null,
             author    = ($authorEl.length)  ? $authorEl.text()          : null;
-            date      = ($dateEl.length)    ? new Date($dateEl.text())  : new Date(options.pubDate);
+            date      = ($dateEl.length)    ? new Date($dateEl.text())  : (typeof options.pubDate == 'string' 
+                                                                            ? new Date(options.pubDate)
+                                                                            : undefined;
 
         // found tags and append it to options tags
         var tags = options.tags || [];
