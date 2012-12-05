@@ -6,6 +6,6 @@ export PATH=/usr/local/bin:/usr/bin:/bin:/usr/bin/X11:/usr/games:/usr/sbin:/sbin
 
 echo "3 2 1 ..."
 sleep 3
-DIR=/server/gearmand
+DIR=/server/gearman
 
 exec ${DIR}/sbin/gearmand -l=${DIR}/log/gearmand.log --listen 127.0.0.1 -u nobody --verbose=DEBUG --libmemcached-servers 127.0.0.1 -q libsqlite3 --libsqlite3-db=${DIR}/data/db.sqlite
