@@ -189,7 +189,7 @@ var scraperNewsArticle = function(url, selector, options, callback)
             if (err) storeCallback(err, 'fail find article to update');
             article.tags = tags;
             article.body = body;
-            article.pubDate = pubDate;
+            article.pubDate = date;
             article.save(storeCallback);
           });
         }
