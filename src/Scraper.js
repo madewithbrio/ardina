@@ -123,7 +123,7 @@ var scraperNewsArticle = function(url, selector, options, callback)
             author    = ($authorEl.length)  ? $authorEl.text()          : null;
             date      = ($dateEl.length)    ? new Date($dateEl.text())  : (typeof options.pubDate == 'string' 
                                                                             ? new Date(options.pubDate)
-                                                                            : undefined;
+                                                                            : undefined);
 
         // found tags and append it to options tags
         var tags = options.tags || [];
