@@ -18,18 +18,20 @@ var load_feed = function(){
 	    	} 
 			if (typeof articles[i].guid === 'string') {
 				winston.info("send page to scrap to queue " + articles[i].guid);
-				var data = {url: articles[i].guid, tags: ['desporto', articles[i].category], pubDate: articles[i].pubdate, update: true};
+				var data = {url: articles[i].guid, tags: ['desporto', articles[i].category], pubDate: articles[i].pubdate, update: false};
 				var job = gearClient.submitJob('scraper', JSON.stringify(data))
 				job.on('error', function(err){
 					winston.error(err);
 				}).on('end', function(){
 					winston.info("job done");
+					delete job;
 				});
 			}
 	    }
 	    last_link = articles[0].guid;
 	    articles = undefined;
+	    delete articles;
 	});
-	setTimeout(load_feed, RSSConf.source.refresh);
+	setTimeout(load_feed, RSSConf.refresh);
 };
 load_feed();
