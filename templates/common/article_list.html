@@ -1,0 +1,17 @@
+
+
+<ul class="list news_list clearfix">
+    {{#latested}}
+    <li>
+        <a href="/artigo{{slug}}">
+            <div class="details">
+                <p class="source {{source}}">{{source}}</p>
+                <p class="date">{{formatDate}}</p>
+                <p class="title">{{title}}</p>
+                <p class="lead">{{& lead_text}}</p>
+            </div>
+        </a>
+    </li>
+    {{/latested}}
+</ul>
+
