@@ -66,15 +66,16 @@ gearClient.registerWorker('scraper', function(payload, worker) {
     }
   };
 
-  Article.count({sourceUrl: data.url}, function(err, count) {
+  var selector = selectors.getSelector(data.url);
+  if (typeof selector === 'undefined') return callback(true, 'site dont have selector');
+
+  Article.count({sourceUrl: selector.url}, function(err, count) {
     if (err) return callback(err, 'fail find if article allready scraped');
     if (count !== 0 && data.update !== true) return callback(true, 'article allready scraped');
 
-    var selector = selectors.getSelector(data.url);
-    if (typeof selector === 'undefined') return callback(true, 'site dont have selector');
     try {
       var options = {tags: data.tags, pubDate: data.pubDate, update: count};
-      scraperNewsArticle(data.url, selector, options, callback);
+      scraperNewsArticle(selector.url, selector, options, callback);
     } catch (e) {
       return callback(true, 'fail scrap page: ' + e);
     }
@@ -184,7 +185,7 @@ var scraperNewsArticle = function(url, selector, options, callback)
           if (typeof date === 'undefined' || date == 0) {
             date = 'now';
           }
-
+          tags = tags.unique(); // remove repeated tags
           var article = new Article({
             title:      title,
             lead:       lead,
