@@ -3,12 +3,12 @@ var config    	= require('../config/config.js').config,
     Gearman   	= require('node-gearman'),
     gearClient 	= new Gearman(config.gearman.host, config.gearman.port),
     winston   	= require('winston'),
-    feed_url 	= config.feed.source.sol,
+    RSSConf 	= config.feed.expresso_destaques,
     last_link 	= undefined;
 
 var load_feed = function(){
-	winston.info("read feed: " + feed_url);
-	rss.parseURL(feed_url, function(articles) {
+	winston.info("read feed: " + RSSConf.source);
+	rss.parseURL(RSSConf.source, function(articles) {
 
 	    winston.info("number of articles: " + articles.length);
 	    for(i=0; i<articles.length; i++) {
@@ -31,6 +31,6 @@ var load_feed = function(){
 	    last_link = articles[0].link;
 	    articles = undefined;
 	});
-	setTimeout(load_feed, config.feed.refresh);
+	setTimeout(load_feed, RSSConf.refresh);
 };
 load_feed();

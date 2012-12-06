@@ -137,7 +137,7 @@ var scraperNewsArticle = function(url, selector, tags)
           $bodyEl.find(selector.exclude_body).remove();
           body = $bodyEl.html();
         }
-
+        console.log(body);
         console.log(tags);
         console.log(selector.url);
         console.log(selector.host);

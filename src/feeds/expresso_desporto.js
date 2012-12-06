@@ -3,7 +3,7 @@ var config    	= require('../config/config.js').config,
     Gearman   	= require('node-gearman'),
     gearClient 	= new Gearman(config.gearman.host, config.gearman.port),
     winston   	= require('winston'),
-    RSSConf 	= config.feed.sapo_destaques,
+    RSSConf 	= config.feed.expresso_desporto,
     last_link 	= undefined;
 
 var load_feed = function(){
@@ -18,12 +18,7 @@ var load_feed = function(){
 	    	} 
 			if (typeof articles[i].link === 'string') {
 				winston.info("send page to scrap to queue " + articles[i].link);
-				var data = {
-							url: articles[i].link, 
-							tags: ['destaques'], 
-							pubDate: articles[i].pubdate, 
-							update: true
-							};
+				var data = {url: articles[i].link, tags: ['desporto'], pubDate: articles[i].pubdate, update: true};
 				var job = gearClient.submitJob('scraper', JSON.stringify(data))
 				job.on('error', function(err){
 					winston.error(err);

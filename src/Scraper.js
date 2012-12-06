@@ -13,6 +13,18 @@ var config    = require('./config/config.js').config,
     selectors = require('./config/Selectors.js');
     require('./lib/ArticleSchema.js');
 
+Array.prototype.unique = function() {
+    var a = this.concat();
+    for(var i=0; i<a.length; ++i) {
+        for(var j=i+1; j<a.length; ++j) {
+            if(a[i] === a[j])
+                a.splice(j, 1);
+        }
+    }
+
+    return a;
+};
+
 try {
   winston.info('start worker process');
   gearClient.connect();
@@ -172,7 +184,7 @@ var scraperNewsArticle = function(url, selector, options, callback)
           if (typeof date === 'undefined' || date == 0) {
             date = 'now';
           }
-          
+
           var article = new Article({
             title:      title,
             lead:       lead,
@@ -195,7 +207,7 @@ var scraperNewsArticle = function(url, selector, options, callback)
           console.log("update article");
           Article.findOne({sourceUrl: selector.url}, function (err, article){
             if (err) storeCallback(err, 'fail find article to update');
-            article.tags = tags;
+            article.tags = article.tags.concat(tags).unique();
             article.body = body;
       	    if (typeof date !== 'undefined' && date != 0) {
               article.pubDate = date;

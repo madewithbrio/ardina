@@ -8,4 +8,4 @@ echo "3 2 1 ..."
 sleep 3
 DIR=/servers/ardina/src
 
-exec setuidgid nobody node ${DIR}/feeds/abola.js
+exec setuidgid nobody node ${DIR}/feeds/expresso_economia.js

@@ -27,19 +27,20 @@ var config = {
   },
 
   feed : {
-    refresh : 60000,
-    source  : {
-      abola     : 'http://rss.feedsportal.com/c/32502/f/480420/index.rss',
-      economico : 'http://economico.sapo.pt/rss/ultimas',
-      sol       : 'http://sol.sapo.pt/rss/',
-      expresso_destaques : 'http://expresso.sapo.pt/manchetes_feed.rss',
-      publico   : 'http://feeds.feedburner.com/PublicoRSS',
-      sapo_destaques : 'http://services.sapo.pt/RSS/Feed/noticias/homepage_geral',
-      rr_geral  : 'http://rr.sapo.pt/rssFeed.aspx?cid=1',
-      rr_politica : 'http://rr.sapo.pt/rssFeed.aspx?fid=27',
-      rr_economia : 'http://rr.sapo.pt/rssFeed.aspx?fid=24',
-      rr_cultura : 'http://rr.sapo.pt/rssFeed.aspx?fid=30' 
-    } 
+    abola                 : { source : 'http://rss.feedsportal.com/c/32502/f/480420/index.rss', refresh: 120000 }
+    economico             : { source : 'http://economico.sapo.pt/rss/ultimas', refresh: 120000 }
+    sol                   : { source : 'http://sol.sapo.pt/rss/', refresh: 120000 }
+    expresso_destaques    : { source : 'http://expresso.sapo.pt/manchetes_feed.rss', refresh: 60000 }
+    expresso_economia     : { source : 'http://expresso.sapo.pt/static/rss/economia_23413.xml', refresh: 240000 }
+    expresso_desporto     : { source : 'http://expresso.sapo.pt/static/rss/desporto_23414.xml', refresh: 240000 }
+    expresso_tec          : { source : 'http://expresso.sapo.pt/static/rss/tecnologia-e-ciencia_24924.xml', refresh: 300000 }
+    expresso_geral        : { source : 'http://expresso.sapo.pt/static/rss/atualidade_23412.xml', refresh: 120000 }
+    publico               : { source : 'http://feeds.feedburner.com/PublicoRSS', refresh: 120000 }
+    sapo_destaques        : { source : 'http://services.sapo.pt/RSS/Feed/noticias/homepage_geral', refresh: 60000 }
+    rr_geral              : { source : 'http://rr.sapo.pt/rssFeed.aspx?cid=1', refresh: 120000 }
+    rr_politica           : { source : 'http://rr.sapo.pt/rssFeed.aspx?fid=27', refresh: 2400000 }
+    rr_economia           : { source : 'http://rr.sapo.pt/rssFeed.aspx?fid=24', refresh: 2400000 }
+    rr_cultura            : { source : 'http://rr.sapo.pt/rssFeed.aspx?fid=30', refresh: 2400000 }
   }
 }
 

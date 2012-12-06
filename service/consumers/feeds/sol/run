@@ -6,6 +6,6 @@ export PATH=/usr/local/bin:/usr/bin:/bin:/usr/bin/X11:/usr/games:/usr/sbin:/sbin
 
 echo "3 2 1 ..."
 sleep 3
-DIR=/server/ardina/src
+DIR=/servers/ardina/src
 
 exec setuidgid nobody node ${DIR}/feeds/sol.js
