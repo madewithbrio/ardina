@@ -37,6 +37,7 @@ var config = {
     expresso_geral        : { source : 'http://expresso.sapo.pt/static/rss/atualidade_23412.xml', refresh: 120000 },
     publico               : { source : 'http://feeds.feedburner.com/PublicoRSS', refresh: 120000 },
     sapo_destaques        : { source : 'http://services.sapo.pt/RSS/Feed/noticias/homepage_geral', refresh: 60000 },
+
     rr_geral              : { source : 'http://rr.sapo.pt/rssFeed.aspx?cid=1', refresh: 120000 },
     rr_politica           : { source : 'http://rr.sapo.pt/rssFeed.aspx?fid=27', refresh: 2400000 },
     rr_economia           : { source : 'http://rr.sapo.pt/rssFeed.aspx?fid=24', refresh: 2400000 },
