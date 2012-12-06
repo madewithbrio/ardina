@@ -34,7 +34,11 @@ var config = {
       sol       : 'http://sol.sapo.pt/rss/',
       expresso_destaques : 'http://expresso.sapo.pt/manchetes_feed.rss',
       publico   : 'http://feeds.feedburner.com/PublicoRSS',
-      sapo_destaques : 'http://services.sapo.pt/RSS/Feed/noticias/homepage_geral'
+      sapo_destaques : 'http://services.sapo.pt/RSS/Feed/noticias/homepage_geral',
+      rr_geral  : 'http://rr.sapo.pt/rssFeed.aspx?cid=1',
+      rr_politica : 'http://rr.sapo.pt/rssFeed.aspx?fid=27',
+      rr_economia : 'http://rr.sapo.pt/rssFeed.aspx?fid=24',
+      rr_cultura : 'http://rr.sapo.pt/rssFeed.aspx?fid=30' 
     } 
   }
 }

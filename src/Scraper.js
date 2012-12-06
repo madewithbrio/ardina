@@ -169,6 +169,10 @@ var scraperNewsArticle = function(url, selector, options, callback)
 
         if (options.update === 0) {
           console.log("save new article");
+          if (typeof date === 'undefined' || date == 0) {
+            date = 'now';
+          }
+          
           var article = new Article({
             title:      title,
             lead:       lead,
@@ -193,9 +197,9 @@ var scraperNewsArticle = function(url, selector, options, callback)
             if (err) storeCallback(err, 'fail find article to update');
             article.tags = tags;
             article.body = body;
-	    if (typeof date !== 'undefined') {
-            	article.pubDate = date;
-	    }
+      	    if (typeof date !== 'undefined' && date != 0) {
+              article.pubDate = date;
+      	    }
             article.save(storeCallback);
           });
         }
