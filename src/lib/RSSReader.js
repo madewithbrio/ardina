@@ -100,6 +100,11 @@ var getParser = function () {
 	});
 }
 
+exports.parseString = function(string, cb) {
+	callback = cb;
+	getParser().parseString(body);
+}
+
 /**
  * parseFile()
  * Parses an RSS feed from a file. 
