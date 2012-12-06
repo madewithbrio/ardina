@@ -60,7 +60,7 @@ var selectors = {
   },
 
   'http://www.expresso.pt/': {
-    alias: 'http://expresso.sapo.pt',
+    alias: 'http://expresso.sapo.pt/',
   },
 
   'http://www.abola.pt/': {
