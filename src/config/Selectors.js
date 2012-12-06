@@ -19,12 +19,11 @@ var selectors = {
     lead:     '#mainLead',
     body:     '#textNews',
     image:    {
-      url:          '#imgNews img',
+      url:          '.imgNews img',
       description:  '#legenda',
       author:       '#not_exists',
     },
-    date:     '#dateSignature',
-    author:   '#not_exists',
+    author:   '#dateSignature > span',
     tags:     '#not_exists',
     source:   'rr'
   },
