@@ -59,6 +59,10 @@ var selectors = {
     enconding:'binary'
   },
 
+  'http://www.expresso.pt/': {
+    alias: 'http://expresso.sapo.pt',
+  },
+
   'http://www.abola.pt/': {
     title:    '#a5g2',
     lead:     '#not_exists',
