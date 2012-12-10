@@ -218,8 +218,7 @@ body > .main {margin:50px 0 0 0;background:#FFF;}
 .article_detail .article_body a,
 .article_detail .article_body a:visited {font-weight:bold;color:#D68800;}
 .no-touch .article_detail .article_body a:hover {color:#333;text-decoration:underline;}
-.article_detail .article_body object,
-.article_detail .article_body embed {max-width:100%;height:auto;}
+.article_detail .article_body * {max-width:100%;height:auto;}
 .article_detail > footer {padding:26px 0 0 0;margin:0 0 30px 0;border-top:1px solid #DDD;}
 .article_detail > footer .original {top:auto;bottom:2px;}
 
@@ -266,7 +265,7 @@ body > .main {margin:50px 0 0 0;background:#FFF;}
 
 @media only screen and (min-width:1024px) {
 
-body {background:#EEE;}
+body {/*background:#EEE;*/}
 
 .no-touch .wrapper {position:relative;max-width:1280px;margin:0 auto;}
 
