@@ -63,14 +63,14 @@ ArticleSchema.statics.findHighligts = function(tags, callback) {
   var filter = {'image.url' : { $ne : null }};
   if (typeof tags == 'object') { filter.tags = {$all: tags}};
 
-  return this.find(filter).sort({ pubDate : -1 }).limit(6).exec(callback);
+  return this.find(filter).sort({ pubDate : -1 }).limit(9).exec(callback);
 }
 
 ArticleSchema.statics.findLatested = function(tags, callback) {
   if (typeof tags == 'function') { callback = tags; tags = undefined; }
   var filter = {};
   if (typeof tags == 'object') { filter.tags = {$all: tags}};
-  return this.find(filter).sort({ pubDate : -1 }).skip(10).limit(12).exec(callback);
+  return this.find(filter).sort({ pubDate : -1 }).limit(12).exec(callback);
 }
 
 ArticleSchema.statics.findReleated = function(keywords, callback) {
