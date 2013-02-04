@@ -73,6 +73,10 @@ ArticleSchema.statics.findLatested = function(tags, callback) {
   return this.find(filter).sort({ pubDate : -1 }).skip(10).limit(12).exec(callback);
 }
 
+ArticleSchema.statics.findReleated = function(keywords, callback) {
+  return this.find({"analiser.keywords.keyword": {"$in": keywords}}).sort({ pubDate : -1 }).limit(12).exec(callback);
+}
+
 function slugGenerator (options){
   options = options || {};
   var key = options.key || 'title';
