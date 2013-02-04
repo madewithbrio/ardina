@@ -24,6 +24,15 @@ View.prototype = {
 	    });
 	},
 
+	renderTemplate : function(name, data, callback) {
+		var self = this;
+	    if (typeof callback !== 'function') throw ViewCallbackException;
+	 
+	    self.getView(name, 'html', function(content) {
+	      var template = Mustache.to_html(content, data);
+	      callback(template); 
+	    });
+	},
     getView : function(name, format, callback) {
 	    var self = this;
 	 

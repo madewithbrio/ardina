@@ -74,7 +74,7 @@ ArticleSchema.statics.findLatested = function(tags, callback) {
 }
 
 ArticleSchema.statics.findReleated = function(keywords, callback) {
-  return this.find({"analiser.keywords.keyword": {"$in": keywords}}).sort({ pubDate : -1 }).limit(12).exec(callback);
+  return this.find({"analiser.keywords.keyword": {$in: keywords}}).sort({ pubDate : -1 }).limit(5).exec(callback);
 }
 
 function slugGenerator (options){

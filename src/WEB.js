@@ -101,15 +101,16 @@ WEB.prototype = {
 		    	if (err) {
     				return request.send(500, {}, { status : false, error : 'Could not fetch article' });
     			} else {
-    				console.log(KeywordsAnaliser.getKeywords(data.analiser));
-    				/**
-    				var view = new View();
-    				view.assign('has_font_resizer', true);
-    				view.renderView('article_detail', data, function(content) {
-    					request.send(200, {'Content-Type': 'text/html'}, content);
-    					WEB.cachePage(content, slug);
-    				});
-					**/
+    				var keywords = KeywordsAnaliser.getKeywords(data.analiser);
+				var relatedArticles = db.model('Article').findReleated(keywords, function(err, data){
+					console.log(data);
+
+					var view = new View();
+					view.assign('has_font_resizer', true);
+					view.renderTemplate('articles_list', data, function(content) {
+						request.send(200, {'Content-Type': 'text/html'}, content);
+					});
+				});
     			}
 		    });
 		});
