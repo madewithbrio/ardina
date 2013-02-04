@@ -46,4 +46,12 @@ $(document).ready(function() {
 		return false;
 	});
 
+	$('div[data-element="lazy"]').each(function(){
+		var container = $(this);
+		$.ajax({
+  			url: container.data('location')
+		}).done(function(data) {
+			container.html(data);
+		});
+	});
 });
