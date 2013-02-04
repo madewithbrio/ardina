@@ -75,8 +75,8 @@ KeywordsAnaliser = function(text) {
 
 KeywordsAnaliser.getKeywords = function (analiser) {
 	var _keywords = [];
-	for (var idx in analiser.keywords) {
-		_keywords.push(analiser.keywords[idx].keyword);
+	for (var i = 0; i < analiser.keywords.length; i++) {
+		_keywords.push(analiser.keywords[i].keyword);
 	}
 	return _keywords;
 }
